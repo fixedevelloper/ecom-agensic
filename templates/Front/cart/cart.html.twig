@@ -1,0 +1,70 @@
+<div class="top-cart-info">
+    <a href="javascript:void(0);" class="top-cart-info-count">{{ count_item}} items</a>
+    <a href="javascript:void(0);" class="top-cart-info-value">${{ summary }}</a>
+</div>
+<i class="fa fa-shopping-cart"></i>
+
+<div class="top-cart-content-wrapper">
+    <div class="top-cart-content">
+        <ul class="scroller" style="height: 250px;">
+            {% for item in lines %}
+            <li>
+                <a href="shop-item.html"><img src="{{ asset('assets/front/pages/img/cart-img.jpg') }}" alt="Rolex Classic Watch" width="37" height="34"></a>
+                <span class="cart-content-count">x {{ item.quantity }}</span>
+                <strong><a href="shop-item.html">{{ item.product_name }}</a></strong>
+                <em>${{ item.price }}</em>
+                <a id="cart_{{ item.id }}" href="javascript:void(0);" class="del-goods" data-id="{{ item.id }}">&nbsp;</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="text-right">
+            <a href="{{ path('show_cart') }}" class="btn btn-default">View Cart</a>
+            <a href="shop-checkout.html" class="btn btn-primary">Checkout</a>
+        </div>
+    </div>
+</div>
+{#<script>
+    $(function () {
+
+        $('.add-to-cart').click(function () {
+            $.ajax({
+                url: "{{ path('add_cart_json') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    product_id: $('#input_data_id').val(),
+                    quantity: $('#product-quantity').val(),
+                },
+                success: function (data) {
+
+                },
+                error: function (err) {
+                    setTimeout(function () {
+                        $("#overlay").fadeOut(300);
+                    }, 500);
+                }
+
+            });
+        })
+        $('.add2cart').click(function () {
+            $.ajax({
+                url: "{{ path('add_cart_json') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    product_id: $(this).data('id'),
+                    quantity: 1,
+                },
+                success: function (data) {
+                    window.location.reload();
+                },
+                error: function (err) {
+                    setTimeout(function () {
+                        $("#overlay").fadeOut(300);
+                    }, 500);
+                }
+
+            });
+        })
+    })
+</script>#}

@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+{% block title %}Accueil{% endblock %}
+{% block sub_tilte %}
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        .main-content .highlight {
+            position: relative;
+            background-color: #fff;
+            padding: 1px;
+        }
+        li{
+            cursor: pointer;
+        }
+        .main-content {
+            font-size: 12px !important;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mt-0 mb-3">Meilleurs ventes</h4>
+
+                    <div class="chartjs-chart">
+                        <canvas id="lineChart" height="300"></canvas>
+                    </div>
+
+                </div>
+            </div>
+
+        </div><!-- end col-->
+
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-body">
+
+                    <h4 class="header-title mt-0 mb-3">Meilleurs ventes</h4>
+
+                    <div class="chartjs-chart">
+                        <canvas id="bar" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- end col-->
+
+    </div>
+    <!-- end row -->
+
+
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-body">
+
+                    <h4 class="header-title mt-0 mb-3">Best customers</h4>
+
+                    <div class="chartjs-chart">
+                        <canvas id="pie" height="300"></canvas>
+                    </div>
+
+                </div>
+            </div>
+
+        </div><!-- end col-->
+
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mt-0 mb-3">Agences</h4>
+
+                    <div class="chartjs-chart">
+                        <canvas id="doughnut" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- end col-->
+
+    </div>
+    <!-- end row -->
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/admin/js/flots/Chart.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/flots/chartjs.init.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,415 @@
+<!-- BEGIN TOP BAR -->
+<div class="pre-header">
+    <div class="container">
+        <div class="row">
+            <!-- BEGIN TOP BAR LEFT PART -->
+            <div class="col-md-6 col-sm-6 additional-shop-info">
+                <ul class="list-unstyled list-inline">
+                    <li><i class="fa fa-phone"></i><span>+1 456 6717</span></li>
+                    <!-- BEGIN CURRENCIES -->
+                    <li class="shop-currencies">
+                        <a href="javascript:void(0);">€</a>
+                        <a href="javascript:void(0);">£</a>
+                        <a href="javascript:void(0);" class="current">$</a>
+                    </li>
+                    <!-- END CURRENCIES -->
+                    <!-- BEGIN LANGS -->
+                    <li class="langs-block">
+                        <a href="javascript:void(0);" class="current">English </a>
+                        <div class="langs-block-others-wrapper"><div class="langs-block-others">
+                                <a href="javascript:void(0);">French</a>
+                            </div></div>
+                    </li>
+                    <!-- END LANGS -->
+                </ul>
+            </div>
+            <!-- END TOP BAR LEFT PART -->
+            <!-- BEGIN TOP BAR MENU -->
+            <div class="col-md-6 col-sm-6 additional-nav">
+                <ul class="list-unstyled list-inline pull-right">
+                    <li><a href="shop-account.html">My Account</a></li>
+                    <li><a href="shop-wishlist.html">My Wishlist</a></li>
+                    <li><a href="shop-checkout.html">Checkout</a></li>
+                    <li><a href="page-login.html">Log In</a></li>
+                </ul>
+            </div>
+            <!-- END TOP BAR MENU -->
+        </div>
+    </div>
+</div>
+<!-- END TOP BAR -->
+{#<div class="container-fluid">
+<div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
+    <div class="col-lg-4">
+        <a href="" class="text-decoration-none">
+            <span class="h1 text-uppercase text-primary bg-dark px-2">Multi</span>
+            <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Shop</span>
+        </a>
+    </div>
+    <div class="col-lg-4 col-6 text-left">
+        <form action="">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for products">
+                <div class="input-group-append">
+                            <span class="input-group-text bg-transparent text-primary">
+                                <i class="fa fa-search"></i>
+                            </span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-4 col-6 text-right">
+        <p class="m-0">Customer Service</p>
+        <h5 class="m-0">+012 345 6789</h5>
+    </div>
+</div>
+</div>#}
+<!-- BEGIN HEADER -->
+<div class="header">
+    <div class="container">
+        <a class="site-logo" href="{{ path('home') }}"><img src="{{ asset('assets/front/corporate/img/logos/logo-shop-red.png') }}" alt="Metronic Shop UI"></a>
+
+        <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
+
+        <!-- BEGIN CART -->
+        <div class="top-cart-block">
+            {{ render(controller('App\\Controller\\Front\\CartController::cart')) }}
+
+        </div>
+        <!--END CART -->
+
+        <!-- BEGIN NAVIGATION -->
+        <div class="header-navigation">
+            <ul>
+                <li class="dropdown dropdown-megamenu">
+                    <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="javascript:;">
+                      Telephones et tablets
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div class="header-navigation-content">
+                                <div class="row">
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Footwear</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Astro Trainers</a></li>
+                                            <li><a href="shop-product-list.html">Basketball Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Boots</a></li>
+                                            <li><a href="shop-product-list.html">Canvas Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Football Boots</a></li>
+                                            <li><a href="shop-product-list.html">Golf Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Hi Tops</a></li>
+                                            <li><a href="shop-product-list.html">Indoor and Court Trainers</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Clothing</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Base Layer</a></li>
+                                            <li><a href="shop-product-list.html">Character</a></li>
+                                            <li><a href="shop-product-list.html">Chinos</a></li>
+                                            <li><a href="shop-product-list.html">Combats</a></li>
+                                            <li><a href="shop-product-list.html">Cricket Clothing</a></li>
+                                            <li><a href="shop-product-list.html">Fleeces</a></li>
+                                            <li><a href="shop-product-list.html">Gilets</a></li>
+                                            <li><a href="shop-product-list.html">Golf Tops</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Accessories</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Belts</a></li>
+                                            <li><a href="shop-product-list.html">Caps</a></li>
+                                            <li><a href="shop-product-list.html">Gloves, Hats and Scarves</a></li>
+                                        </ul>
+
+                                        <h4>Clearance</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Jackets</a></li>
+                                            <li><a href="shop-product-list.html">Bottoms</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-12 nav-brands">
+                                        <ul>
+                                            <li><a href="shop-product-list.html"><img title="esprit" alt="esprit" src="{{ asset('assets/front/pages/img/brands/esprit.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="gap" alt="gap" src="{{ asset('assets/front/pages/img/brands/gap.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="next" alt="next" src="{{ asset('assets/front/pages/img/brands/next.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="puma" alt="puma" src="{{ asset('assets/front/pages/img/brands/puma.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="zara" alt="zara" src="{{ asset('assets/front/pages/img/brands/zara.jpg') }}"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown dropdown-megamenu">
+                    <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="javascript:;">
+                        Electromenagers
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div class="header-navigation-content">
+                                <div class="row">
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Footwear</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Astro Trainers</a></li>
+                                            <li><a href="shop-product-list.html">Basketball Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Boots</a></li>
+                                            <li><a href="shop-product-list.html">Canvas Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Football Boots</a></li>
+                                            <li><a href="shop-product-list.html">Golf Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Hi Tops</a></li>
+                                            <li><a href="shop-product-list.html">Indoor and Court Trainers</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Clothing</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Base Layer</a></li>
+                                            <li><a href="shop-product-list.html">Character</a></li>
+                                            <li><a href="shop-product-list.html">Chinos</a></li>
+                                            <li><a href="shop-product-list.html">Combats</a></li>
+                                            <li><a href="shop-product-list.html">Cricket Clothing</a></li>
+                                            <li><a href="shop-product-list.html">Fleeces</a></li>
+                                            <li><a href="shop-product-list.html">Gilets</a></li>
+                                            <li><a href="shop-product-list.html">Golf Tops</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Accessories</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Belts</a></li>
+                                            <li><a href="shop-product-list.html">Caps</a></li>
+                                            <li><a href="shop-product-list.html">Gloves, Hats and Scarves</a></li>
+                                        </ul>
+
+                                        <h4>Clearance</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Jackets</a></li>
+                                            <li><a href="shop-product-list.html">Bottoms</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-12 nav-brands">
+                                        <ul>
+                                            <li><a href="shop-product-list.html"><img title="esprit" alt="esprit" src="{{ asset('assets/front/pages/img/brands/esprit.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="gap" alt="gap" src="{{ asset('assets/front/pages/img/brands/gap.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="next" alt="next" src="{{ asset('assets/front/pages/img/brands/next.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="puma" alt="puma" src="{{ asset('assets/front/pages/img/brands/puma.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="zara" alt="zara" src="{{ asset('assets/front/pages/img/brands/zara.jpg') }}"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown dropdown-megamenu">
+                    <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="javascript:;">
+                        Meubles
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div class="header-navigation-content">
+                                <div class="row">
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Footwear</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Astro Trainers</a></li>
+                                            <li><a href="shop-product-list.html">Basketball Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Boots</a></li>
+                                            <li><a href="shop-product-list.html">Canvas Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Football Boots</a></li>
+                                            <li><a href="shop-product-list.html">Golf Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Hi Tops</a></li>
+                                            <li><a href="shop-product-list.html">Indoor and Court Trainers</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Clothing</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Base Layer</a></li>
+                                            <li><a href="shop-product-list.html">Character</a></li>
+                                            <li><a href="shop-product-list.html">Chinos</a></li>
+                                            <li><a href="shop-product-list.html">Combats</a></li>
+                                            <li><a href="shop-product-list.html">Cricket Clothing</a></li>
+                                            <li><a href="shop-product-list.html">Fleeces</a></li>
+                                            <li><a href="shop-product-list.html">Gilets</a></li>
+                                            <li><a href="shop-product-list.html">Golf Tops</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Accessories</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Belts</a></li>
+                                            <li><a href="shop-product-list.html">Caps</a></li>
+                                            <li><a href="shop-product-list.html">Gloves, Hats and Scarves</a></li>
+                                        </ul>
+
+                                        <h4>Clearance</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Jackets</a></li>
+                                            <li><a href="shop-product-list.html">Bottoms</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-12 nav-brands">
+                                        <ul>
+                                            <li><a href="shop-product-list.html"><img title="esprit" alt="esprit" src="{{ asset('assets/front/pages/img/brands/esprit.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="gap" alt="gap" src="{{ asset('assets/front/pages/img/brands/gap.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="next" alt="next" src="{{ asset('assets/front/pages/img/brands/next.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="puma" alt="puma" src="{{ asset('assets/front/pages/img/brands/puma.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="zara" alt="zara" src="{{ asset('assets/front/pages/img/brands/zara.jpg') }}"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown dropdown-megamenu">
+                    <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="javascript:;">
+                        Modes
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div class="header-navigation-content">
+                                <div class="row">
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Footwear</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Astro Trainers</a></li>
+                                            <li><a href="shop-product-list.html">Basketball Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Boots</a></li>
+                                            <li><a href="shop-product-list.html">Canvas Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Football Boots</a></li>
+                                            <li><a href="shop-product-list.html">Golf Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Hi Tops</a></li>
+                                            <li><a href="shop-product-list.html">Indoor and Court Trainers</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Clothing</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Base Layer</a></li>
+                                            <li><a href="shop-product-list.html">Character</a></li>
+                                            <li><a href="shop-product-list.html">Chinos</a></li>
+                                            <li><a href="shop-product-list.html">Combats</a></li>
+                                            <li><a href="shop-product-list.html">Cricket Clothing</a></li>
+                                            <li><a href="shop-product-list.html">Fleeces</a></li>
+                                            <li><a href="shop-product-list.html">Gilets</a></li>
+                                            <li><a href="shop-product-list.html">Golf Tops</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Accessories</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Belts</a></li>
+                                            <li><a href="shop-product-list.html">Caps</a></li>
+                                            <li><a href="shop-product-list.html">Gloves, Hats and Scarves</a></li>
+                                        </ul>
+
+                                        <h4>Clearance</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Jackets</a></li>
+                                            <li><a href="shop-product-list.html">Bottoms</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-12 nav-brands">
+                                        <ul>
+                                            <li><a href="shop-product-list.html"><img title="esprit" alt="esprit" src="{{ asset('assets/front/pages/img/brands/esprit.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="gap" alt="gap" src="{{ asset('assets/front/pages/img/brands/gap.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="next" alt="next" src="{{ asset('assets/front/pages/img/brands/next.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="puma" alt="puma" src="{{ asset('assets/front/pages/img/brands/puma.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="zara" alt="zara" src="{{ asset('assets/front/pages/img/brands/zara.jpg') }}"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown dropdown-megamenu">
+                    <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="javascript:;">
+                        Appareillages
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div class="header-navigation-content">
+                                <div class="row">
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Footwear</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Astro Trainers</a></li>
+                                            <li><a href="shop-product-list.html">Basketball Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Boots</a></li>
+                                            <li><a href="shop-product-list.html">Canvas Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Football Boots</a></li>
+                                            <li><a href="shop-product-list.html">Golf Shoes</a></li>
+                                            <li><a href="shop-product-list.html">Hi Tops</a></li>
+                                            <li><a href="shop-product-list.html">Indoor and Court Trainers</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Clothing</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Base Layer</a></li>
+                                            <li><a href="shop-product-list.html">Character</a></li>
+                                            <li><a href="shop-product-list.html">Chinos</a></li>
+                                            <li><a href="shop-product-list.html">Combats</a></li>
+                                            <li><a href="shop-product-list.html">Cricket Clothing</a></li>
+                                            <li><a href="shop-product-list.html">Fleeces</a></li>
+                                            <li><a href="shop-product-list.html">Gilets</a></li>
+                                            <li><a href="shop-product-list.html">Golf Tops</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4 header-navigation-col">
+                                        <h4>Accessories</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Belts</a></li>
+                                            <li><a href="shop-product-list.html">Caps</a></li>
+                                            <li><a href="shop-product-list.html">Gloves, Hats and Scarves</a></li>
+                                        </ul>
+
+                                        <h4>Clearance</h4>
+                                        <ul>
+                                            <li><a href="shop-product-list.html">Jackets</a></li>
+                                            <li><a href="shop-product-list.html">Bottoms</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-12 nav-brands">
+                                        <ul>
+                                            <li><a href="shop-product-list.html"><img title="esprit" alt="esprit" src="{{ asset('assets/front/pages/img/brands/esprit.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="gap" alt="gap" src="{{ asset('assets/front/pages/img/brands/gap.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="next" alt="next" src="{{ asset('assets/front/pages/img/brands/next.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="puma" alt="puma" src="{{ asset('assets/front/pages/img/brands/puma.jpg') }}"></a></li>
+                                            <li><a href="shop-product-list.html"><img title="zara" alt="zara" src="{{ asset('assets/front/pages/img/brands/zara.jpg') }}"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <!-- BEGIN TOP SEARCH -->
+                <li class="menu-search">
+                    <span class="sep"></span>
+                    <i class="fa fa-search search-btn"></i>
+                    <div class="search-box">
+                        <form action="#">
+                            <div class="input-group">
+                                <input type="text" placeholder="Search" class="form-control">
+                                <span class="input-group-btn">
+                      <button class="btn btn-primary" type="submit">Search</button>
+                    </span>
+                            </div>
+                        </form>
+                    </div>
+                </li>
+                <!-- END TOP SEARCH -->
+            </ul>
+        </div>
+        <!-- END NAVIGATION -->
+    </div>
+</div>
+<!-- Header END -->
