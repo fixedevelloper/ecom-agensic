@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>{% block title %}AGENSIC{% endblock %}</title>
+    {% block stylesheets %}
+        <!-- Css Styles -->
+        <!-- Fonts END -->
+
+        <!-- Global styles START -->
+        <link href="{{ asset('assets/front/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/front/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+        <!-- Global styles END -->
+
+        <!-- Page level plugin styles START -->
+        <link href="{{ asset('assets/front/pages/css/animate.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/front/plugins/fancybox/source/jquery.fancybox.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/front/plugins/owl.carousel/assets/owl.carousel.css') }}" rel="stylesheet">
+        <!-- Page level plugin styles END -->
+
+        <!-- Theme styles START -->
+        <link href="{{ asset('assets/front/pages/css/components.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/front/pages/css/slider.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/front/pages/css/style-shop.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/front/corporate/css/style.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/front/corporate/css/style-responsive.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/front/corporate/css/themes/red.css') }}" rel="stylesheet" id="style-color">
+        <link href="{{ asset('assets/front/corporate/css/custom.css') }}" rel="stylesheet">
+        <!-- Theme styles END -->
+    {% endblock %}
+
+
+</head>
+<body class="ecommerce">
+<!-- BEGIN STYLE CUSTOMIZER -->
+{#<div class="color-panel hidden-sm">
+    <div class="color-mode-icons icon-color"></div>
+    <div class="color-mode-icons icon-color-close"></div>
+    <div class="color-mode">
+        <p>THEME COLOR</p>
+        <ul class="inline">
+            <li class="color-red current color-default" data-style="red"></li>
+            <li class="color-blue" data-style="blue"></li>
+            <li class="color-green" data-style="green"></li>
+            <li class="color-orange" data-style="orange"></li>
+            <li class="color-gray" data-style="gray"></li>
+            <li class="color-turquoise" data-style="turquoise"></li>
+        </ul>
+    </div>
+</div>#}
+<!-- END BEGIN STYLE CUSTOMIZER -->
+<div class="main-wrapper">
+    {% include 'Front/_partials/_header.html.twig' %}
+    {% block body %}
+
+    {% endblock %}
+    {% include 'Front/_partials/_footer.html.twig' %}
+</div>
+{% block javascripts %}
+    <!-- Js Plugins -->
+    <!-- Load javascripts at bottom, this will reduce page load time -->
+    <!-- BEGIN CORE PLUGINS (REQUIRED FOR ALL PAGES) -->
+    <!--[if lt IE 9]>
+    <script src="{{ asset('assets/front/plugins/respond.min.js') }}"></script>
+    <![endif]-->
+    <script src="{{ asset('assets/front/plugins/jquery.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/front/plugins/jquery-migrate.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/front/plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/front/corporate/scripts/back-to-top.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/front/plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
+    <!-- END CORE PLUGINS -->
+
+    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
+    <script src="{{ asset('assets/front/plugins/fancybox/source/jquery.fancybox.pack.js') }}" type="text/javascript"></script><!-- pop up -->
+    <script src="{{ asset('assets/front/plugins/owl.carousel/owl.carousel.min.js') }}" type="text/javascript"></script><!-- slider for products -->
+    <script src='{{ asset('assets/front/plugins/zoom/jquery.zoom.min.js') }}' type="text/javascript"></script><!-- product zoom -->
+    <script src="{{ asset('assets/front/plugins/bootstrap-touchspin/bootstrap.touchspin.min.js') }}" type="text/javascript"></script><!-- Quantity -->
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ asset('js/fos_js_routes.js') }}"></script>
+    <script src="{{ asset('assets/front/corporate/scripts/layout.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/front/pages/scripts/bs-carousel.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            Layout.init();
+            Layout.initOWL();
+            Layout.initImageZoom();
+            Layout.initTouchspin();
+            Layout.initTwitter();
+
+            Layout.initFixHeaderWithPreHeader();
+            Layout.initNavScrolling();
+        });
+    </script>
+    <!-- END PAGE LEVEL JAVASCRIPTS -->
+{% endblock %}
+</body>
+</html>

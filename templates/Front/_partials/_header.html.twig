@@ -27,10 +27,10 @@
             <!-- BEGIN TOP BAR MENU -->
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
-                    <li><a href="shop-account.html">My Account</a></li>
-                    <li><a href="shop-wishlist.html">My Wishlist</a></li>
-                    <li><a href="shop-checkout.html">Checkout</a></li>
-                    <li><a href="page-login.html">Log In</a></li>
+                    <li><a href="{{ path('accountpage') }}">My Account</a></li>
+                    <li><a href="{{ path('accountpage') }}">My Wishlist</a></li>
+                    <li><a href="{{ path('checkoutpage') }}">Checkout</a></li>
+                    <li><a href="{{ path('loginpage') }}">Log In</a></li>
                 </ul>
             </div>
             <!-- END TOP BAR MENU -->
@@ -67,7 +67,7 @@
 <!-- BEGIN HEADER -->
 <div class="header">
     <div class="container">
-        <a class="site-logo" href="{{ path('home') }}"><img src="{{ asset('assets/front/corporate/img/logos/logo-shop-red.png') }}" alt="Metronic Shop UI"></a>
+        <a class="site-logo" href="{{ path('home') }}"><img src="{{ asset('assets/front/corporate/img/logos/logo-shop-red.png') }}" alt="Agensic commerce"></a>
 
         <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
 

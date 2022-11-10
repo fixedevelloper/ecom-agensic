@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zxx">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,91 +11,79 @@
         <!-- Css Styles -->
         <!-- Fonts END -->
 
-        <!-- Global styles START -->
-        <link href="{{ asset('assets/front/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/front/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-        <!-- Global styles END -->
 
-        <!-- Page level plugin styles START -->
-        <link href="{{ asset('assets/front/pages/css/animate.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/front/plugins/fancybox/source/jquery.fancybox.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/front/plugins/owl.carousel/assets/owl.carousel.css') }}" rel="stylesheet">
-        <!-- Page level plugin styles END -->
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
+        <!-- Magnific Popup -->
+        <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.min.css') }}">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.css') }}">
+        <!-- Fancybox -->
+        <link rel="stylesheet" href="{{ asset('assets/css/jquery.fancybox.min.css') }}">
+        <!-- Themify Icons -->
+        <link rel="stylesheet" href="{{ asset('assets/css/themify-icons.css') }}">
+        <!-- Nice Select CSS -->
+        <link rel="stylesheet" href="{{ asset('assets/css/niceselect.css') }}">
+        <!-- Animate CSS -->
+        <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
+        <!-- Flex Slider CSS -->
+        <link rel="stylesheet" href="{{ asset('assets/css/flex-slider.min.css') }}">
+        <!-- Owl Carousel -->
+        <link rel="stylesheet" href="{{ asset('assets/css/owl-carousel.css') }}">
+        <!-- Slicknav -->
+        <link rel="stylesheet" href="{{ asset('assets/css/slicknav.min.css') }}">
 
-        <!-- Theme styles START -->
-        <link href="{{ asset('assets/front/pages/css/components.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/front/pages/css/slider.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/front/pages/css/style-shop.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ asset('assets/front/corporate/css/style.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/front/corporate/css/style-responsive.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/front/corporate/css/themes/red.css') }}" rel="stylesheet" id="style-color">
-        <link href="{{ asset('assets/front/corporate/css/custom.css') }}" rel="stylesheet">
+        <!-- Eshop StyleSheet -->
+        <link rel="stylesheet" href="{{ asset('assets/css/reset.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
         <!-- Theme styles END -->
     {% endblock %}
 
 
 </head>
-<body class="ecommerce">
-<!-- BEGIN STYLE CUSTOMIZER -->
-<div class="color-panel hidden-sm">
-    <div class="color-mode-icons icon-color"></div>
-    <div class="color-mode-icons icon-color-close"></div>
-    <div class="color-mode">
-        <p>THEME COLOR</p>
-        <ul class="inline">
-            <li class="color-red current color-default" data-style="red"></li>
-            <li class="color-blue" data-style="blue"></li>
-            <li class="color-green" data-style="green"></li>
-            <li class="color-orange" data-style="orange"></li>
-            <li class="color-gray" data-style="gray"></li>
-            <li class="color-turquoise" data-style="turquoise"></li>
-        </ul>
-    </div>
-</div>
-<!-- END BEGIN STYLE CUSTOMIZER -->
-<div class="main-wrapper">
-    {% include 'Front/_partials/_header.html.twig' %}
+<body class="js">
+    {% include 'Front/_partials/header.html.twig' %}
     {% block body %}
 
     {% endblock %}
-    {% include 'Front/_partials/_footer.html.twig' %}
-</div>
-{% block javascripts %}
-    <!-- Js Plugins -->
-    <!-- Load javascripts at bottom, this will reduce page load time -->
-    <!-- BEGIN CORE PLUGINS (REQUIRED FOR ALL PAGES) -->
-    <!--[if lt IE 9]>
-    <script src="{{ asset('assets/front/plugins/respond.min.js') }}"></script>
-    <![endif]-->
-    <script src="{{ asset('assets/front/plugins/jquery.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/front/plugins/jquery-migrate.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/front/plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/front/corporate/scripts/back-to-top.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/front/plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
-    <!-- END CORE PLUGINS -->
+    {% include 'Front/_partials/footer.html.twig' %}
 
-    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-    <script src="{{ asset('assets/front/plugins/fancybox/source/jquery.fancybox.pack.js') }}" type="text/javascript"></script><!-- pop up -->
-    <script src="{{ asset('assets/front/plugins/owl.carousel/owl.carousel.min.js') }}" type="text/javascript"></script><!-- slider for products -->
-    <script src='{{ asset('assets/front/plugins/zoom/jquery.zoom.min.js') }}' type="text/javascript"></script><!-- product zoom -->
-    <script src="{{ asset('assets/front/plugins/bootstrap-touchspin/bootstrap.touchspin.min.js') }}" type="text/javascript"></script><!-- Quantity -->
+{% block javascripts %}
+    <!-- Jquery -->
+    <script src="{{ asset('assets/front/plugins/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/magnific-popup.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
+    <!-- Popper JS -->
+    <script src="{{ asset('assets/js/popper.min.js') }}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+    <!-- Color JS -->
+    <!-- Slicknav JS -->
+    <script src="{{ asset('assets/js/slicknav.min.js') }}"></script>
+    <!-- Owl Carousel JS -->
+    <script src="{{ asset('assets/js/owl-carousel.js') }}"></script>
+    <!-- Magnific Popup JS -->
+    <script src="{{ asset('assets/js/magnific-popup.js') }}"></script>
+    <!-- Waypoints JS -->
+    <script src="{{ asset('assets/js/waypoints.min.js') }}"></script>
+    <!-- Countdown JS -->
+    <script src="{{ asset('assets/js/finalcountdown.min.js') }}"></script>
+    <!-- Nice Select JS -->
+    <script src="{{ asset('assets/js/nicesellect.js') }}"></script>
+    <!-- Flex Slider JS -->
+    <script src="{{ asset('assets/js/flex-slider.js') }}"></script>
+    <!-- ScrollUp JS -->
+    <script src="{{ asset('assets/js/scrollup.js') }}"></script>
+    <!-- Onepage Nav JS -->
+    <script src="{{ asset('assets/js/onepage-nav.min.js') }}"></script>
+    <!-- Easing JS -->
+    <script src="{{ asset('assets/js/easing.js') }}"></script>
+    <!-- Active JS -->
+    <script src="{{ asset('assets/js/active.js') }}"></script>
+    <!-- END PAGE LEVEL JAVASCRIPTS -->
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ asset('js/fos_js_routes.js') }}"></script>
-    <script src="{{ asset('assets/front/corporate/scripts/layout.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/front/pages/scripts/bs-carousel.js') }}" type="text/javascript"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function() {
-            Layout.init();
-            Layout.initOWL();
-            Layout.initImageZoom();
-            Layout.initTouchspin();
-            Layout.initTwitter();
-
-            Layout.initFixHeaderWithPreHeader();
-            Layout.initNavScrolling();
-        });
-    </script>
-    <!-- END PAGE LEVEL JAVASCRIPTS -->
 {% endblock %}
 </body>
 </html>

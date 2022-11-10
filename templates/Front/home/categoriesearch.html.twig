@@ -1,0 +1,11 @@
+<select>
+    <option selected="selected">All Category</option>
+    {% for cat in categories %}
+    <option>{{ cat.name }}</option>
+    {% endfor %}
+</select>
+<form>
+    <input name="search" placeholder="Search Products Here....." type="search">
+    <button class="btnn"><i class="ti-search"></i></button>
+</form>
+

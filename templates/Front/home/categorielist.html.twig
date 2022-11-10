@@ -1,5 +1,13 @@
-{% for category in categories %}
+{#{% for category in categories %}
     <li class="list-group-item clearfix"><a href="{{ path('product_shop', {t: category.slug}) }}"><i
                     class="fa fa-angle-right"></i> {{ category.name }}</a></li>
-{% endfor %}
+{% endfor %}#}
 
+<div class="single-widget category">
+    <h3 class="title">Categories</h3>
+    <ul class="categor-list">
+        {% for category in categories %}
+        <li><a href="{{ path('product_shop', {t: category.slug}) }}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

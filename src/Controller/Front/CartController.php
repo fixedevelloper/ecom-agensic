@@ -12,6 +12,7 @@ use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -52,7 +53,8 @@ class CartController extends AbstractController
             return $this->render('Front/cart/cart.html.twig', [
                 'count_item' => 0,
                 'summary' => 0.0,
-                'lines' => []
+                'lines' => [],
+                'home'=>false
             ]);
         }
         $cart = $this->cartRepository->find($cartId);
@@ -63,6 +65,7 @@ class CartController extends AbstractController
             $image = $product->getImages()[0];
             $sumary += $lineItem->getSubtotal();
             $line_carts[] = [
+                'product_id' => $product->getId(),
                 'id' => $lineItem->getId(),
                 'product_name' => $lineItem->getName(),
                 'price' => $lineItem->getPrice(),
@@ -73,8 +76,10 @@ class CartController extends AbstractController
         }
         return $this->render('Front/cart/cart.html.twig', [
             'count_item' => count($line_carts),
+            'cart'=>$cartId,
             'summary' => $sumary,
-            'lines' => $line_carts
+            'lines' => $line_carts,
+            'home'=>false
         ]);
     }
 
@@ -115,7 +120,7 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("/cart/show", name="show_cart")
+     * @Route("/cart/show", name="show_cart", options={"expose"=true})
      */
     public function showCart()
     {
@@ -128,16 +133,19 @@ class CartController extends AbstractController
             $product=$this->productRepository->find($lineItem->getProductId());
             $image = $product->getImages()[0];
             $line_carts[] = [
+                'product_id' => $product->getId(),
                 'product_name' => $lineItem->getName(),
                 'price' => $lineItem->getPrice(),
                 'quantity' => $lineItem->getQuantity(),
+                'subtotal'=>$lineItem->getQuantity()*$lineItem->getPrice(),
                 'image' => $image->getSrc(),
                 'slug' => $product->getSlug()
             ];
         }
         return $this->render('Front/cart/view.html.twig', [
             'cart' => $cart,
-            'linecarts' => $line_carts
+            'linecarts' => $line_carts,
+            'home'=>false
         ]);
 
         //return $this->partial($session, true);
@@ -190,24 +198,21 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("/cart/{cid}/{pid}", name="cart_delete", methods={"DELETE"})
+     * @Route("/cart/{cid}/{pid}", name="cart_delete", methods={"GET"})
+     * @param Request $request
+     * @param Product $pid
+     * @param Cart $cid
+     * @return RedirectResponse
      */
-    public function removeFromCart(Request $request, Product $pid, Cart $cid)
+    public function removeFromCart(Request $request, Cart $cid, Product $pid)
     {
-        $repositoryP = $this->getDoctrine()->getRepository(CartProduct::class);
-        $product = $repositoryP->findOneBy([
-            'product' => $pid,
+        $line = $this->lineitemrepository->findOneBy([
+            'product_id' => $pid->getId(),
             'cart' => $cid
         ]);
-        if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($product);
-            $entityManager->flush();
-        }
-        // @pgrimaud : how to redirect user to the last URL known (ex: product/:id page)
-        //$routeName = $request->attributes->get('_route');
-        return $this->redirectToRoute('index');
+            $this->doctrine->remove($line);
+            $this->doctrine->flush();
+        return $this->redirectToRoute('show_cart');
     }
 
 
@@ -234,20 +239,24 @@ class CartController extends AbstractController
 
                     $this->doctrine->persist($cart);
                     $this->doctrine->flush();
-
                     $this->session->set('cart', $cartId = $cart->getId());
                 } else {
                     $cart = $this->cartRepository->find($cartId);
                 }
-
-                $cartProduct = new LineItem();
-                $cartProduct->setCart($cart);
-                $cartProduct->setProductId($product->getId());
-                $cartProduct->setQuantity((int)$request->get('quantity'));
-                $cartProduct->setPrice($product->getSalePrice());
-                $cartProduct->setName($product->getName());
-                $cartProduct->setSubtotal($product->getSalePrice() * $cartProduct->getQuantity());
-                $this->doctrine->persist($cartProduct);
+                $cartProduct=$this->lineitemrepository->findOneBy(['product_id'=>$product->getId(),'cart'=>$cart]);
+                if (is_null($cartProduct)){
+                    $cartProduct = new LineItem();
+                    $cartProduct->setCart($cart);
+                    $cartProduct->setProductId($product->getId());
+                    $cartProduct->setQuantity((int)$request->get('quantity'));
+                    $cartProduct->setPrice($product->getSalePrice());
+                    $cartProduct->setName($product->getName());
+                    $cartProduct->setSubtotal($product->getSalePrice() * $cartProduct->getQuantity());
+                    $this->doctrine->persist($cartProduct);
+                }else{
+                    $cartProduct->setSubtotal($cartProduct->getSubtotal()+($product->getSalePrice() * $cartProduct->getQuantity()));
+                    $cartProduct->setQuantity($cartProduct->getQuantity()+(int)$request->get('quantity'));
+                }
                 $this->doctrine->flush();
 
                 $status = 'ok';
@@ -259,6 +268,7 @@ class CartController extends AbstractController
             'result' => $status,
             'message' => $message,
             'cart' => $cart,
+            'slug'=>$product->getSlug()
         ]);
     }
 

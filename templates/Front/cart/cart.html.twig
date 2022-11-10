@@ -1,4 +1,43 @@
-<div class="top-cart-info">
+<div class="right-bar">
+    <!-- Search Form -->
+    <div class="sinlge-bar">
+        <a href="{{ path('loginpage') }}" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+    </div>
+    <div class="sinlge-bar">
+        <a href="{{ path('accountpage') }}" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
+    </div>
+    <div class="sinlge-bar shopping">
+        <a href="#" class="single-icon"><i class="ti-bag"></i> <span class="total-count">{{ count_item}}</span></a>
+        <!-- Shopping Item -->
+        <div class="shopping-item">
+            <div class="dropdown-cart-header">
+                <span>{{ count_item}} Items</span>
+                <a href="{{ path('show_cart') }}">View Cart</a>
+            </div>
+            <ul class="shopping-list">
+                {% for item in lines %}
+                <li>
+                    <a href="{{ path('cart_delete', {'cid': cart, 'pid': item.product_id }) }}" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
+                    <a class="cart-img" href="#"><img src="https://via.placeholder.com/70x70" alt="#"></a>
+                    <h4><a href="#">{{ item.product_name }}</a></h4>
+                    <p class="quantity">{{ item.quantity }}x - <span class="amount">${{ item.price }}</span></p>
+                </li>
+              {% endfor %}
+            </ul>
+            <div class="bottom">
+                <div class="total">
+                    <span>Total</span>
+                    <span class="total-amount">${{ summary }}</span>
+                </div>
+                <a href="{{ path('show_cart') }}" class="btn animate">View cart</a>
+                <a href="{{ path('checkoutpage') }}" class="btn animate">Checkout</a>
+            </div>
+        </div>
+        <!--/ End Shopping Item -->
+    </div>
+</div>
+
+{#<div class="top-cart-info">
     <a href="javascript:void(0);" class="top-cart-info-count">{{ count_item}} items</a>
     <a href="javascript:void(0);" class="top-cart-info-value">${{ summary }}</a>
 </div>
@@ -22,49 +61,5 @@
             <a href="{{ path('checkoutpage') }}" class="btn btn-primary">Checkout</a>
         </div>
     </div>
-</div>
-{#<script>
-    $(function () {
+</div>#}
 
-        $('.add-to-cart').click(function () {
-            $.ajax({
-                url: "{{ path('add_cart_json') }}",
-                type: "POST",
-                dataType: "JSON",
-                data: {
-                    product_id: $('#input_data_id').val(),
-                    quantity: $('#product-quantity').val(),
-                },
-                success: function (data) {
-
-                },
-                error: function (err) {
-                    setTimeout(function () {
-                        $("#overlay").fadeOut(300);
-                    }, 500);
-                }
-
-            });
-        })
-        $('.add2cart').click(function () {
-            $.ajax({
-                url: "{{ path('add_cart_json') }}",
-                type: "POST",
-                dataType: "JSON",
-                data: {
-                    product_id: $(this).data('id'),
-                    quantity: 1,
-                },
-                success: function (data) {
-                    window.location.reload();
-                },
-                error: function (err) {
-                    setTimeout(function () {
-                        $("#overlay").fadeOut(300);
-                    }, 500);
-                }
-
-            });
-        })
-    })
-</script>#}

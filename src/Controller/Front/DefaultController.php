@@ -13,13 +13,7 @@ use App\Repository\ProductRepository;
 use App\Service\EndpointService;
 use App\Service\paiement\TransferzeroService;
 use Doctrine\ORM\EntityManagerInterface;
-use Omines\DataTablesBundle\DataTableFactory;
-use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -68,7 +62,8 @@ class DefaultController extends AbstractController
         $categories=$this->categoryRepository->findAll();
         return $this->render('Front/home/homepage.html.twig', [
             'products'=>$products,
-            'categories'=>$categories
+            'categories'=>$categories,
+            'home'=>true
         ]);
 
     }
@@ -104,6 +99,13 @@ class DefaultController extends AbstractController
             'categories'=>$categories,
             'product'=>$product,
             'image'=>is_null($image) ? "" :  $image->getSrc(),
+            'home'=>false
+        ]);
+    }
+    public function productmodal(): Response
+    {
+        return $this->render('Front/home/productmodal.html.twig', [
+
         ]);
     }
     public function bestseller(): Response
@@ -165,6 +167,12 @@ class DefaultController extends AbstractController
     public function categorielist(): Response
     {
         return $this->render('Front/home/categorielist.html.twig', [
+            'categories'=>$this->categoryRepository->findBy([])
+        ]);
+    }
+    public function categoriesearch(): Response
+    {
+        return $this->render('Front/home/categoriesearch.html.twig', [
             'categories'=>$this->categoryRepository->findBy([])
         ]);
     }
@@ -337,6 +345,7 @@ class DefaultController extends AbstractController
             'products'=>$products,
             'categories'=>$categories,
             'category'=>$categorie,
+            'home'=>false
         ]);
     }
     /**
@@ -379,7 +388,8 @@ class DefaultController extends AbstractController
         return $this->render('Front/home/checkoutpage.html.twig', [
             'count_item' => count($line_carts),
             'summary' => $sumary,
-            'lines' => $line_carts
+            'lines' => $line_carts,
+            'home'=>false
         ]);
     }
 }

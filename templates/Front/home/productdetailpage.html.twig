@@ -2,7 +2,11 @@
 {% block title %}
     Shop|{{ product.name }}
 {% endblock %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('assets/front/pages/css/style-shop.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/front/plugins/fancybox/source/jquery.fancybox.css') }}" rel="stylesheet">
+{% endblock %}
 {% block body %}
     <div class="main">
         <div class="container">
@@ -18,7 +22,7 @@
                     <ul class="list-group margin-bottom-25 sidebar-menu">
                         {{ render(controller('App\\Controller\\Front\\DefaultController::categorielist')) }}
                     </ul>
-                    <div class="sidebar-products clearfix">
+                    <div class="shop-home-list section">
                         {{ render(controller('App\\Controller\\Front\\DefaultController::bestseller')) }}
 
                     </div>
@@ -60,7 +64,7 @@
                                         laoreet dolore magna aliquarm erat volutpat
                                         Nostrud duis molestie at dolore.</p>
                                 </div>
-                                <div class="product-page-options">
+                               {# <div class="product-page-options">
                                     <div class="pull-left">
                                         <label class="control-label">Size:</label>
                                         <select class="form-control input-sm">
@@ -77,7 +81,7 @@
                                             <option>Black</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div>#}
                                 <div class="product-page-cart">
                                     <div class="product-quantity">
                                         <input id="product-quantity" type="text" value="1" readonly
@@ -221,91 +225,55 @@
             </div>
             <!-- END SIDEBAR & CONTENT -->
 
-            <!-- BEGIN SIMILAR PRODUCTS -->
-            <div class="row margin-bottom-40">
-                <div class="col-md-12 col-sm-12">
-                    <h2>Most popular products</h2>
-                    <div class="owl-carousel owl-carousel4">
-                        {{ render(controller('App\\Controller\\Front\\DefaultController::popularproduct')) }}
+            <div class="product-area most-popular section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-title">
+                                <h2>Popular products</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="owl-carousel popular-slider">
+                                {{ render(controller('App\\Controller\\Front\\DefaultController::popularproduct')) }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- END SIMILAR PRODUCTS -->
         </div>
     </div>
-    <div id="product-pop-up" style="display: none; width: 700px;">
-        <div class="product-page product-pop-up">
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-3">
-                    <div class="product-main-image">
-                        <img src="{{ asset('assets/front/pages/img/products/model7.jpg') }}"
-                             alt="Cool green dress with red bell" class="img-responsive">
-                    </div>
-                    <div class="product-other-images">
-                        <a href="javascript:;" class="active"><img alt="Berry Lace Dress"
-                                                                   src="{{ asset('assets/front/pages/img/products/model3.jpg') }}"></a>
-                        <a href="javascript:;"><img alt="Berry Lace Dress"
-                                                    src="{{ asset('assets/front/pages/img/products/model4.jpg') }}"></a>
-                        <a href="javascript:;"><img alt="Berry Lace Dress"
-                                                    src="{{ asset('assets/front/pages/img/products/model5.jpg') }}"></a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-9">
-                    <h2>Cool green dress with red bell</h2>
-                    <div class="price-availability-block clearfix">
-                        <div class="price">
-                            <strong><span>$</span>47.00</strong>
-                            <em>$<span>62.00</span></em>
-                        </div>
-                        <div class="availability">
-                            Availability: <strong>In Stock</strong>
-                        </div>
-                    </div>
-                    <div class="description">
-                        <p>Lorem ipsum dolor ut sit ame dolore adipiscing elit, sed nonumy nibh sed euismod laoreet
-                            dolore magna aliquarm erat volutpat Nostrud duis molestie at dolore.</p>
-                    </div>
-                    <div class="product-page-options">
-                        <div class="pull-left">
-                            <label class="control-label">Size:</label>
-                            <select class="form-control input-sm">
-                                <option>L</option>
-                                <option>M</option>
-                                <option>XL</option>
-                            </select>
-                        </div>
-                        <div class="pull-left">
-                            <label class="control-label">Color:</label>
-                            <select class="form-control input-sm">
-                                <option>Red</option>
-                                <option>Blue</option>
-                                <option>Black</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="product-page-cart">
-                        <div class="product-quantity">
-                            <input id="product-quantity" type="text" value="1" readonly name="product-quantity"
-                                   class="form-control input-sm">
-                        </div>
-                        <button class="btn btn-primary add-to-cart" type="button">Add to cart</button>
-                        <a id="popup-detail" class="btn btn-default">More details</a>
-                    </div>
-                </div>
-
-                <div class="sticker sticker-sale"></div>
-            </div>
-        </div>
-    </div>
+    <!-- Modal -->
+    {{ render(controller('App\\Controller\\Front\\DefaultController::productmodal')) }}
+    <!-- Modal end -->
     <input type="hidden" id="input_data">
     <input type="hidden" id="input_data_id" value="{{ product.id }}">
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('assets/front/plugins/fancybox/source/jquery.fancybox.pack.js') }}" type="text/javascript"></script><!-- pop up -->
+     <script src='{{ asset('assets/front/plugins/zoom/jquery.zoom.min.js') }}' type="text/javascript"></script><!-- product zoom -->
+    <script src="{{ asset('assets/front/plugins/bootstrap-touchspin/bootstrap.touchspin.min.js') }}" type="text/javascript"></script><!-- Quantity -->
+    <script src="{{ asset('assets/front/corporate/scripts/layout.js') }}" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            Layout.init();
+            Layout.initOWL();
+            Layout.initImageZoom();
+            Layout.initTouchspin();
+            Layout.initTwitter();
+
+            Layout.initFixHeaderWithPreHeader();
+            Layout.initNavScrolling();
+        });
+    </script>
     <script>
         $(function () {
-            $('.fancybox-fast-view').click(function () {
+            $('.product-action-2 a').click(function () {
                 console.log($(this).data('value'))
                 $('#input_data').val($(this).data('value'))
                 $('#input_data_id').val($(this).data('id'))
@@ -316,7 +284,7 @@
                 });
                 window.open(urlpourcentage, '_parent')
             })
-            $('.add-to-cart').click(function () {
+            $('.product-action-2 a').click(function () {
                 $.ajax({
                     url: "{{ path('add_cart_json') }}",
                     type: "POST",

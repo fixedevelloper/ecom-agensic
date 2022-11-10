@@ -1,0 +1,161 @@
+{% extends 'Front/base.html.twig' %}
+{% block title %}
+    Agensic|Myaccount
+{% endblock %}
+{% block body %}
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="bread-inner">
+                        <ul class="bread-list">
+                            <li><a href="{{ path('home') }}">Home<i class="ti-arrow-right"></i></a></li>
+                            <li class="active"><a href="#">My account</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+    <div class="row px-xl-5 mt-3 mb-3">
+        <div class="col">
+            <div class="nav nav-tabs justify-content-center border-secondary mb-4">
+                <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Dashboard</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Account setting</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Review</a>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="tab-pane-1">
+                    <h4 class="mb-3">Oders</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Method</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="tab-pane-2">
+                    <div class="row">
+                        <div class="col-md-6 form-main">
+                            <h4>Informations</h4>
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            <label>Your Email<span>*</span></label>
+                                            <input name="email" type="email" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            <label>Your Email<span>*</span></label>
+                                            <input name="email" type="email" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Shipping Informations</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tab-pane-3">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Start Shop Newsletter  -->
+    <section class="shop-newsletter section">
+        <div class="container">
+            <div class="inner-top">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2 col-12">
+                        <!-- Start Newsletter Inner -->
+                        <div class="inner">
+                            <h4>Newsletter</h4>
+                            <p> Subscribe to our newsletter and get <span>10%</span> off your first purchase</p>
+                            <form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
+                                <input name="EMAIL" placeholder="Your email address" required="" type="email">
+                                <button class="btn">Subscribe</button>
+                            </form>
+                        </div>
+                        <!-- End Newsletter Inner -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Shop Newsletter -->
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            $('.fancybox-fast-view').click(function () {
+                console.log($(this).data('value'))
+                $('#input_data').val($(this).data('value'))
+                $('#input_data_id').val($(this).data('id'))
+                var urlpourcentage = Routing.generate('product_detail', {
+                    'slug': $(this).data('value'),
+                });
+                console.log(urlpourcentage)
+            })
+            $('#popup-detail').click(function () {
+                var urlpourcentage = Routing.generate('product_detail', {
+                    'slug': $('#input_data').val(),
+                });
+                window.open(urlpourcentage, '_parent')
+            })
+            $('.add-to-cart').click(function () {
+                $.ajax({
+                    url: "{{ path('add_cart_json') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        product_id: $('#input_data_id').val(),
+                        quantity: $('#product-quantity').val(),
+                    },
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (err) {
+                        setTimeout(function () {
+                            $("#overlay").fadeOut(300);
+                        }, 500);
+                    }
+
+                });
+            })
+            $('.add2cart').click(function () {
+                $.ajax({
+                    url: "{{ path('add_cart_json') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        product_id: $(this).data('id'),
+                        quantity: 1,
+                    },
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (err) {
+                        setTimeout(function () {
+                            $("#overlay").fadeOut(300);
+                        }, 500);
+                    }
+
+                });
+            })
+        })
+    </script>
+{% endblock %}
