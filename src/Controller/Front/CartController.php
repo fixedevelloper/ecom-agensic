@@ -28,14 +28,15 @@ class CartController extends AbstractController
     private $lineitemrepository;
     private $doctrine;
 
-    public function __construct(EntityManagerInterface $entityManager,ProductRepository $productRepository,CartRepository $cartRepository,LineItemRepository $lineItemRepository,SessionInterface $session)
+    public function __construct(EntityManagerInterface $entityManager, ProductRepository $productRepository, CartRepository $cartRepository, LineItemRepository $lineItemRepository, SessionInterface $session)
     {
-        $this->session=$session;
-        $this->productRepository=$productRepository;
-        $this->cartRepository=$cartRepository;
-        $this->lineitemrepository=$lineItemRepository;
-        $this->doctrine=$entityManager;
+        $this->session = $session;
+        $this->productRepository = $productRepository;
+        $this->cartRepository = $cartRepository;
+        $this->lineitemrepository = $lineItemRepository;
+        $this->doctrine = $entityManager;
     }
+
     #[Route('/cart', name: 'app_cart')]
     public function index(): Response
     {
@@ -43,35 +44,40 @@ class CartController extends AbstractController
             'controller_name' => 'CartController',
         ]);
     }
+
     public function cart(): Response
     {
         $cartId = $this->session->get('cart');
-        if (is_null($cartId)){
+        if (is_null($cartId)) {
             return $this->render('Front/cart/cart.html.twig', [
                 'count_item' => 0,
-                'summary'=>0.0,
-                'lines'=>[]
+                'summary' => 0.0,
+                'lines' => []
             ]);
         }
-        $cart=$this->cartRepository->find($cartId);
-        $line_carts=[];
-        $sumary=0.0;
-        foreach ($cart->getLineItems() as $lineItem){
-            $sumary+=$lineItem->getSubtotal();
-            $line_carts[]=[
-                'id'=>$lineItem->getId(),
-                'product_name'=>$lineItem->getName(),
-                'price'=>$lineItem->getPrice(),
-                'quantity'=>$lineItem->getQuantity(),
-                'product_image'=>''
+        $cart = $this->cartRepository->find($cartId);
+        $line_carts = [];
+        $sumary = 0.0;
+        foreach ($cart->getLineItems() as $lineItem) {
+            $product=$this->productRepository->find($lineItem->getProductId());
+            $image = $product->getImages()[0];
+            $sumary += $lineItem->getSubtotal();
+            $line_carts[] = [
+                'id' => $lineItem->getId(),
+                'product_name' => $lineItem->getName(),
+                'price' => $lineItem->getPrice(),
+                'quantity' => $lineItem->getQuantity(),
+                'image' => is_null($image)?" ":$image->getSrc(),
+                'slug' => $product->getSlug()
             ];
         }
         return $this->render('Front/cart/cart.html.twig', [
             'count_item' => count($line_carts),
-            'summary'=>$sumary,
-            'lines'=>$line_carts
+            'summary' => $sumary,
+            'lines' => $line_carts
         ]);
     }
+
     /**
      * @Route("/cart.json", name="cart_json", methods={"GET"})
      */
@@ -117,15 +123,21 @@ class CartController extends AbstractController
 
         $cart = $cartId ? $this->cartRepository->find($cartId) : new Cart();
 
-        $line_carts=[];
-        foreach ($cart->getLineItems() as $lineItem){
-            $line_carts[]=[
-              'product_name'=>$lineItem->getName(),
-                'price'=>$lineItem->getPrice()
+        $line_carts = [];
+        foreach ($cart->getLineItems() as $lineItem) {
+            $product=$this->productRepository->find($lineItem->getProductId());
+            $image = $product->getImages()[0];
+            $line_carts[] = [
+                'product_name' => $lineItem->getName(),
+                'price' => $lineItem->getPrice(),
+                'quantity' => $lineItem->getQuantity(),
+                'image' => $image->getSrc(),
+                'slug' => $product->getSlug()
             ];
         }
         return $this->render('Front/cart/view.html.twig', [
-            'cart' => $cart
+            'cart' => $cart,
+            'linecarts' => $line_carts
         ]);
 
         //return $this->partial($session, true);
@@ -234,7 +246,7 @@ class CartController extends AbstractController
                 $cartProduct->setQuantity((int)$request->get('quantity'));
                 $cartProduct->setPrice($product->getSalePrice());
                 $cartProduct->setName($product->getName());
-                $cartProduct->setSubtotal($product->getSalePrice()*$cartProduct->getQuantity());
+                $cartProduct->setSubtotal($product->getSalePrice() * $cartProduct->getQuantity());
                 $this->doctrine->persist($cartProduct);
                 $this->doctrine->flush();
 

@@ -1,0 +1,6 @@
+<ul>
+    {% for subcate in subcategories %}
+        <li><a href="{{ path('product_shop', {t: subcate.slug}) }}">{{ subcate.name }}</a></li>
+    {% endfor %}
+</ul>
+

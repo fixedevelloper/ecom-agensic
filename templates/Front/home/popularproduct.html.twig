@@ -2,7 +2,7 @@
     <div>
         <div class="product-item">
             <div class="pi-img-wrapper">
-                <img src="{{ asset('' ~ item.image ) }}"
+                <img src="{{ asset('' ~ item.image ) | imagine_filter('my_thumb')  }}"
                      class="img-responsive" alt="Berry Lace Dress">
                 <div>
                     <a href="{{ asset('' ~ item.image ) }}"

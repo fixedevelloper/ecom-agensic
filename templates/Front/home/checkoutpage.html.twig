@@ -347,34 +347,22 @@
                                                     <th class="checkout-price">Price</th>
                                                     <th class="checkout-total">Total</th>
                                                 </tr>
+                                                {% for item in lines %}
                                                 <tr>
                                                     <td class="checkout-image">
-                                                        <a href="javascript:;"><img src="assets/pages/img/products/model3.jpg" alt="Berry Lace Dress"></a>
+                                                        <a href="javascript:;"><img src="{{ asset('' ~ item.image) }}" alt="Berry Lace Dress"></a>
                                                     </td>
                                                     <td class="checkout-description">
-                                                        <h3><a href="javascript:;">Cool green dress with red bell</a></h3>
+                                                        <h3><a href="javascript:;">{{ item.product_name }}</a></h3>
                                                         <p><strong>Item 1</strong> - Color: Green; Size: S</p>
                                                         <em>More info is here</em>
                                                     </td>
                                                     <td class="checkout-model">RES.193</td>
-                                                    <td class="checkout-quantity">1</td>
-                                                    <td class="checkout-price"><strong><span>$</span>47.00</strong></td>
-                                                    <td class="checkout-total"><strong><span>$</span>47.00</strong></td>
+                                                    <td class="checkout-quantity">{{ item.quantity }}</td>
+                                                    <td class="checkout-price"><strong><span>$</span>{{ item.price }}</strong></td>
+                                                    <td class="checkout-total"><strong><span>$</span>{{ item.quantity * item.price }}</strong></td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="checkout-image">
-                                                        <a href="javascript:;"><img src="assets/pages/img/products/model4.jpg" alt="Berry Lace Dress"></a>
-                                                    </td>
-                                                    <td class="checkout-description">
-                                                        <h3><a href="javascript:;">Cool green dress with red bell</a></h3>
-                                                        <p><strong>Item 1</strong> - Color: Green; Size: S</p>
-                                                        <em>More info is here</em>
-                                                    </td>
-                                                    <td class="checkout-model">RES.193</td>
-                                                    <td class="checkout-quantity">1</td>
-                                                    <td class="checkout-price"><strong><span>$</span>47.00</strong></td>
-                                                    <td class="checkout-total"><strong><span>$</span>47.00</strong></td>
-                                                </tr>
+                                           {% endfor %}
                                             </table>
                                         </div>
                                         <div class="checkout-total-block">

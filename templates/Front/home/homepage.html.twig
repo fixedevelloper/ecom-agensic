@@ -111,7 +111,7 @@
         </div>
         <div class="col-md-3">
             <div class="product-offer mb-30" style="height: 200px;">
-                <img class="img-fluid" src="{{ asset('assets/front/pages/img/products/model1.jpg') }}" alt="">
+                <img class="img-fluid" src="{{ asset('assets/front/pages/img/frontend-slider/offer-2.jpg') }}" alt="">
                 <div class="offer-text">
                     <h6 class="text-white text-uppercase">Save 20%</h6>
                     <h3 class="text-white mb-3">Special Offer</h3>
@@ -119,7 +119,7 @@
                 </div>
             </div>
             <div class="product-offer mb-30" style="height: 200px;">
-                <img class="img-fluid" src="{{ asset('assets/front/pages/img/products/model1.jpg') }}" alt="">
+                <img class="img-fluid" src="{{ asset('assets/front/pages/img/frontend-slider/offer-1.jpg') }}" alt="">
                 <div class="offer-text">
                     <h6 class="text-white text-uppercase">Save 20%</h6>
                     <h3 class="text-white mb-3">Special Offer</h3>
@@ -192,27 +192,7 @@
                 <div class="col-md-9 col-sm-8">
                     <h2>Categories products</h2>
                     <div class="owl-carousel owl-carousel3">
-                        {% for product in products %}
-                            <div>
-                                <div class="product-item">
-                                    <div class="pi-img-wrapper">
-                                        <img src="{{ asset('assets/front/pages/img/products/k1.jpg') }}"
-                                             class="img-responsive" alt="Berry Lace Dress">
-                                        <div>
-                                            <a href="{{ asset('assets/front/pages/img/products/k1.jpg') }}"
-                                               class="btn btn-default fancybox-button">Zoom</a>
-                                            <a href="#product-pop-up" data-id="{{ product.id }}"  data-value="{{ product.slug }}"
-                                               class="btn btn-default fancybox-fast-view">View</a>
-                                        </div>
-                                    </div>
-                                    <h3><a href="{{ path('product_detail', {'slug': product.slug}) }}">Berry Lace Dress</a></h3>
-                                    <div class="pi-price">$29.00</div>
-                                    <a href="javascript:;" class="btn btn-default add2cart" data-id="{{ product.id }}">Add to cart</a>
-                                    <div class="sticker sticker-new"></div>
-                                </div>
-                            </div>
-                        {% endfor %}
-
+                        {{ render(controller('App\\Controller\\Front\\DefaultController::categoryproducts')) }}
                     </div>
                 </div>
                 <!-- END CONTENT -->
@@ -222,7 +202,7 @@
                 <div class="row px-xl-5">
                     <div class="col-md-6">
                         <div class="product-offer mb-30" style="height: 300px;">
-                            <img class="img-fluid" src="{{ asset('assets/front/pages/img/products/model1.jpg') }}" alt="">
+                            <img class="img-fluid" src="{{ asset('assets/front/pages/img/frontend-slider/offer-1.jpg') }}" alt="">
                             <div class="offer-text">
                                 <h6 class="text-white text-uppercase">Save 20%</h6>
                                 <h3 class="text-white mb-3">Special Offer</h3>
@@ -232,7 +212,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="product-offer mb-30" style="height: 300px;">
-                            <img class="img-fluid" src="{{ asset('assets/front/pages/img/products/model1.jpg') }}" alt="">
+                            <img class="img-fluid" src="{{ asset('assets/front/pages/img/frontend-slider/offer-2.jpg') }}" alt="">
                             <div class="offer-text">
                                 <h6 class="text-white text-uppercase">Save 20%</h6>
                                 <h3 class="text-white mb-3">Special Offer</h3>
@@ -256,29 +236,7 @@
             <div class="row margin-bottom-35 ">
                 <!-- BEGIN TWO PRODUCTS -->
                 <div class="col-md-6 two-items-bottom-items">
-                    <h2>Best sellers</h2>
-                  <div class="owl-carousel owl-carousel2">
-                        {% for product in products %}
-                            <div>
-                                <div class="product-item">
-                                    <div class="pi-img-wrapper">
-                                        <img src="{{ asset('assets/front/pages/img/products/k1.jpg') }}"
-                                             class="img-responsive"
-                                             alt="Berry Lace Dress">
-                                        <div>
-                                            <a href="{{ asset('assets/front/pages/img/products/k1.jpg') }}"
-                                               class="btn btn-default fancybox-button">Zoom</a>
-                                            <a href="#product-pop-up" data-id="{{ product.id }}" data-value="{{ product.slug }}"
-                                               class="btn btn-default fancybox-fast-view">View</a>
-                                        </div>
-                                    </div>
-                                    <h3><a href="{{ path('product_detail', {'slug': product.slug}) }}">Berry Lace Dress</a></h3>
-                                    <div class="pi-price">$29.00</div>
-                                    <a href="javascript:;" class="btn btn-default add2cart"  data-id="{{ product.id }}">Add to cart</a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
+                    {{ render(controller('App\\Controller\\Front\\DefaultController::bestsellerhome')) }}
                 </div>
                 <!-- END TWO PRODUCTS -->
                 <!-- BEGIN PROMO -->
@@ -371,7 +329,73 @@
         </div>
     </div>
     <!-- END STEPS -->
+    {% macro callpopup(idpopup,product) %}
     <!-- BEGIN fast view of a product -->
+    <div id="product-pop-up" style="display: none; width: 700px;">
+        <div class="product-page product-pop-up">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-3">
+                    <div class="product-main-image">
+                        <img src="{{ asset('assets/front/pages/img/products/model7.jpg') }}"
+                             alt="Cool green dress with red bell" class="img-responsive">
+                    </div>
+                    <div class="product-other-images">
+                        <a href="javascript:;" class="active"><img alt="Berry Lace Dress"
+                                                                   src="{{ asset('assets/front/pages/img/products/model3.jpg') }}"></a>
+                        <a href="javascript:;"><img alt="Berry Lace Dress"
+                                                    src="{{ asset('assets/front/pages/img/products/model4.jpg') }}"></a>
+                        <a href="javascript:;"><img alt="Berry Lace Dress"
+                                                    src="{{ asset('assets/front/pages/img/products/model5.jpg') }}"></a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-9">
+                    <h2>Cool green dress with red bell</h2>
+                    <div class="price-availability-block clearfix">
+                        <div class="price">
+                            <strong><span>$</span>47.00</strong>
+                            <em>$<span>62.00</span></em>
+                        </div>
+                        <div class="availability">
+                            Availability: <strong>In Stock</strong>
+                        </div>
+                    </div>
+                    <div class="description">
+                        <p>Lorem ipsum dolor ut sit ame dolore adipiscing elit, sed nonumy nibh sed euismod laoreet
+                            dolore magna aliquarm erat volutpat Nostrud duis molestie at dolore.</p>
+                    </div>
+                    <div class="product-page-options">
+                        <div class="pull-left">
+                            <label class="control-label">Size:</label>
+                            <select class="form-control input-sm">
+                                <option>L</option>
+                                <option>M</option>
+                                <option>XL</option>
+                            </select>
+                        </div>
+                        <div class="pull-left">
+                            <label class="control-label">Color:</label>
+                            <select class="form-control input-sm">
+                                <option>Red</option>
+                                <option>Blue</option>
+                                <option>Black</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="product-page-cart">
+                        <div class="product-quantity">
+                            <input id="product-quantity" type="text" value="1" readonly name="product-quantity"
+                                   class="form-control input-sm">
+                        </div>
+                        <button class="btn btn-primary add-to-cart" type="button">Add to cart</button>
+                        <a id="popup-detail" class="btn btn-default">More details</a>
+                    </div>
+                </div>
+
+                <div class="sticker sticker-sale"></div>
+            </div>
+        </div>
+    </div>
+    {% endmacro %}
     <div id="product-pop-up" style="display: none; width: 700px;">
         <div class="product-page product-pop-up">
             <div class="row">

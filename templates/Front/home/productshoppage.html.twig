@@ -5,7 +5,7 @@
 {% block body %}
 <div class="title-wrapper">
     <div class="container"><div class="container-inner">
-            <h1><span>{{ category.name }}</span> CATEGORY</h1>
+            <h1><span> {% if category is not null %}{{ category.name }}{% endif %}</span> CATEGORY</h1>
             <em>Over 4000 Items are available here</em>
         </div></div>
 </div>
@@ -15,7 +15,7 @@
         <ul class="breadcrumb">
             <li><a href="{{ path('home') }}">Home</a></li>
             <li><a href="">Store</a></li>
-            <li class="active">{{ category.name }}</li>
+            <li class="active">{% if category is not null %}{{ category.name }}{% endif %}</li>
         </ul>
         <!-- BEGIN SIDEBAR & CONTENT -->
         <div class="row margin-bottom-40">
@@ -90,7 +90,7 @@
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="product-item">
                     <div class="pi-img-wrapper">
-                        <img src="{{ asset('' ~ prod.image) }}" class="img-responsive" alt="Berry Lace Dress">
+                        <img src="{{ asset('' ~ prod.image)  | imagine_filter('product_cat') }}" class="img-responsive" alt="Berry Lace Dress">
                         <div>
                             <a href="{{ asset('' ~ prod.image) }}" class="btn btn-default fancybox-button">Zoom</a>
                             <a href="#product-pop-up" class="btn btn-default fancybox-fast-view" data-id="{{ prod.id }}" data-value="{{ prod.slug }}">View</a>
@@ -98,7 +98,7 @@
                     </div>
                     <h3><a href="{{ path('product_detail', {'slug': prod.slug }) }}">{{ prod.name }}</a></h3>
                     <div class="pi-price">${{ prod.price }}.00</div>
-                    <a href="javascript:;" class="btn btn-default add2cart">Add to cart</a>
+                    <a href="javascript:;" class="btn btn-default add2cart" data-id="{{ prod.id }}">Add to cart</a>
                 </div>
             </div>
             {% endfor %}
@@ -227,7 +227,7 @@
                         quantity: $('#product-quantity').val(),
                     },
                     success: function (data) {
-
+                        window.location.reload();
                     },
                     error: function (err) {
                         setTimeout(function () {
