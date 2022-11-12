@@ -10,6 +10,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\LineItemRepository;
 use App\Repository\ProductRepository;
+use App\Repository\ShopRepository;
 use App\Service\EndpointService;
 use App\Service\paiement\TransferzeroService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,19 +27,25 @@ class DefaultController extends AbstractController
     private CustomerRepository $customerRepository;
     private CategoryRepository $categoryRepository;
     private AttributeRepository $attriburRepository;
+    private ShopRepository $shopRepository;
     private EntityManagerInterface $doctrine;
     private $cartRepository;
     private $lineitemrepository;
     private $session;
+
     /**
      * StaticApiController constructor.
+     * @param ShopRepository $shopRepository
      * @param EntityManagerInterface $entityManager
+     * @param CartRepository $cartRepository
+     * @param LineItemRepository $lineItemRepository
+     * @param SessionInterface $session
      * @param ProductRepository $productRepository
      * @param CustomerRepository $customerRepository
      * @param CategoryRepository $categoryRepository
      * @param AttributeRepository $attriburRepository
      */
-    public function __construct(EntityManagerInterface $entityManager,CartRepository $cartRepository, LineItemRepository $lineItemRepository, SessionInterface $session,ProductRepository $productRepository, CustomerRepository $customerRepository,
+    public function __construct(ShopRepository $shopRepository,EntityManagerInterface $entityManager,CartRepository $cartRepository, LineItemRepository $lineItemRepository, SessionInterface $session,ProductRepository $productRepository, CustomerRepository $customerRepository,
                                 CategoryRepository $categoryRepository, AttributeRepository $attriburRepository)
     {
         $this->productRepository = $productRepository;
@@ -47,6 +54,7 @@ class DefaultController extends AbstractController
         $this->attriburRepository = $attriburRepository;
         $this->cartRepository = $cartRepository;
         $this->lineitemrepository = $lineItemRepository;
+        $this->shopRepository=$shopRepository;
         $this->doctrine=$entityManager;
         $this->session = $session;
     }
@@ -110,7 +118,7 @@ class DefaultController extends AbstractController
     }
     public function bestseller(): Response
     {
-        $bestsellers_=$this->productRepository->findBy([]);
+        $bestsellers_=$this->productRepository->findByBestseller(8);
         $bestsellers=[];
         foreach ($bestsellers_ as $product){
             $image = $product->getImages()[0];
@@ -138,7 +146,7 @@ class DefaultController extends AbstractController
     }
     public function bestsellerhome(): Response
     {
-        $bestsellers_=$this->productRepository->findBy([]);
+        $bestsellers_=$this->productRepository->findByBestseller(8);
         $bestsellers=[];
         foreach ($bestsellers_ as $product){
             $image = $product->getImages()[0];
@@ -178,7 +186,7 @@ class DefaultController extends AbstractController
     }
     public function featureproducts(): Response
     {
-        $products_=$this->productRepository->findBy([]);
+        $products_=$this->productRepository->findFeatureds(4);
         $products=[];
         foreach ($products_ as $product){
             $image = $product->getImages()[0];
@@ -206,7 +214,7 @@ class DefaultController extends AbstractController
     }
     public function newarrivalsproducts(): Response
     {
-        $products_=$this->productRepository->findBy([]);
+        $products_=$this->productRepository->findNewArrivals(20);
         $products=[];
         foreach ($products_ as $product){
             $image = $product->getImages()[0];
@@ -234,7 +242,7 @@ class DefaultController extends AbstractController
     }
     public function categoryproducts(): Response
     {
-        $products_=$this->productRepository->findBy([]);
+        $products_=$this->productRepository->findCategories(8);
         $products=[];
         foreach ($products_ as $product){
             $image = $product->getImages()[0];
@@ -262,7 +270,7 @@ class DefaultController extends AbstractController
     }
     public function popularproduct(): Response
     {
-        $products_=$this->productRepository->findBy([]);
+        $products_=$this->productRepository->findPopularproducts(8);
         $products=[];
         foreach ($products_ as $product){
             $image = $product->getImages()[0];
@@ -359,6 +367,44 @@ class DefaultController extends AbstractController
         ]);
     }
     /**
+     * @Route("/shop/{slug}", name="shop_page")
+     * @param Request $request
+     * @return Response
+     */
+    public function shop_page(Request $request,$slug): Response
+    {
+        $shop=$this->shopRepository->findOneBy(['slug'=>$slug]);
+        if (is_null($shop)){
+            $this->redirectToRoute('home');
+        }
+        $products=[];
+        $products_=$shop->getProducts();
+        foreach ($products_ as $product){
+            $image = $product->getImages()[0];
+            $products[]=[
+                'name'=>$product->getName(),
+                'id'=>$product->getId(),
+                'slug'=>$product->getSlug(),
+                'price' => $product->getPrice(),
+                'managestock' => $product->getId(),
+                'width' => $product->getWidth(),
+                'stockquantity' => $product->getStockQuantity(),
+                'weight' => $product->getWeight(),
+                'length' => $product->getLength(),
+                'height' => $product->getHeight(),
+                'image' => is_null($image) ? "" :  $image->getSrc(),
+                'type' => $product->getType(),
+                'saleprice' => $product->getSalePrice(),
+                'regularprice' => $product->getRegularPrice(),
+            ];
+        }
+        return $this->render('Front/home/shop_page.html.twig', [
+            'products'=>$products,
+            'shop'=>$shop,
+            'home'=>false
+        ]);
+    }
+    /**
      * @Route("/checkoutpage", name="checkoutpage")
      * @param Request $request
      * @return Response
@@ -369,11 +415,18 @@ class DefaultController extends AbstractController
         if (is_null($cartId)){
             return $this->redirectToRoute('home');
         }
+        $islogged=true;
+        if (is_null($this->getUser())){
+
+            $islogged=false;
+            return $this->redirectToRoute('loginpage');
+        }
+        $customer=$this->customerRepository->findOneBy(['compte'=>$this->getUser()]);
         $cart = $this->cartRepository->find($cartId);
         $line_carts = [];
         $sumary = 0.0;
         foreach ($cart->getLineItems() as $lineItem) {
-            $product=$this->productRepository->find($lineItem->getProductId());
+            $product=$lineItem->getProduct();
             $image = $product->getImages()[0];
             $sumary += $lineItem->getSubtotal();
             $line_carts[] = [
@@ -388,8 +441,11 @@ class DefaultController extends AbstractController
         return $this->render('Front/home/checkoutpage.html.twig', [
             'count_item' => count($line_carts),
             'summary' => $sumary,
+            'shipping'=>0.0,
             'lines' => $line_carts,
-            'home'=>false
+            'home'=>false,
+            'customer'=>$customer,
+            'islogged'=>$islogged
         ]);
     }
 }

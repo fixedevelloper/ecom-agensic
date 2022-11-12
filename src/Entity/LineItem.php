@@ -19,9 +19,6 @@ class LineItem
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $product_id = null;
-
-    #[ORM\Column(nullable: true)]
     private ?int $variation_id = null;
 
     #[ORM\Column]
@@ -57,6 +54,9 @@ class LineItem
     #[ORM\ManyToOne(inversedBy: 'line_items')]
     private ?Cart $cart = null;
 
+    #[ORM\ManyToOne]
+    private ?Product $product = null;
+
     public function __construct()
     {
         $this->meta_data = new ArrayCollection();
@@ -79,17 +79,6 @@ class LineItem
         return $this;
     }
 
-    public function getProductId(): ?int
-    {
-        return $this->product_id;
-    }
-
-    public function setProductId(?int $product_id): self
-    {
-        $this->product_id = $product_id;
-
-        return $this;
-    }
 
     public function getVariationId(): ?int
     {
@@ -243,6 +232,18 @@ class LineItem
     public function setCart(?Cart $cart): self
     {
         $this->cart = $cart;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

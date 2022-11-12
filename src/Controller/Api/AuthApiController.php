@@ -5,8 +5,10 @@ namespace App\Controller\Api;
 
 
 use App\Entity\Customer;
+use App\Entity\Shop;
 use App\Entity\User;
 
+use App\Repository\SpecialityShopRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -28,7 +30,7 @@ class AuthApiController extends AbstractFOSRestController
     private $userRepository;
     private $customerRepository;
     private $doctrine;
-    private $souscriptionRepository;
+    private $specialityRepository;
 
     /**
      * @param EntityManagerInterface $entityManager
@@ -37,13 +39,14 @@ class AuthApiController extends AbstractFOSRestController
      * @param UserPasswordHasherInterface $passwordEncoder
      */
     public function __construct(EntityManagerInterface $entityManager,UserRepository $userRepository,
-                              LoggerInterface $logger,
+                              LoggerInterface $logger,SpecialityShopRepository $specialityRepository,
                                 UserPasswordHasherInterface $passwordEncoder)
     {
         $this->logger = $logger;
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository=$userRepository;
         $this->doctrine=$entityManager;
+        $this->specialityRepository=$specialityRepository;
     }
 
     /**
@@ -54,15 +57,10 @@ class AuthApiController extends AbstractFOSRestController
     {
         $res = json_decode($request->getContent(), true);
         $data=$res['data'];
-        $email=$data['username'];
+        $email=$data['email'];
         $password=$data['password'];
         $user=$this->userRepository->findOneBy(['username'=>$email]);
         if (null == $user) {
-            $view = $this->view([], Response::HTTP_FORBIDDEN, []);
-            return $this->handleView($view);
-        }
-        $customer = $this->customerRepository->findOneBy(['compte' => $user]);
-        if (is_null($customer)) {
             $view = $this->view([], Response::HTTP_FORBIDDEN, []);
             return $this->handleView($view);
         }
@@ -71,6 +69,7 @@ class AuthApiController extends AbstractFOSRestController
             $view = $this->view([], Response::HTTP_FORBIDDEN, []);
             return $this->handleView($view);
         }
+
         $body=[
             'id'=>$user->getId(),
             'name'=>$user->getName(),
@@ -78,9 +77,6 @@ class AuthApiController extends AbstractFOSRestController
             'password'=>$user->getPhone(),
             'email'=>$user->getEmail(),
             'avatar'=>$user->getAvatar(),
-            'customer'=>$customer->getId(),
-            'validity_date'=>$customer->getValiditydate(),
-            'exprired_date'=>$customer->getExpiredAt(),
         ];
         $view = $this->view($body, Response::HTTP_OK, []);
         return $this->handleView($view);
@@ -94,28 +90,24 @@ class AuthApiController extends AbstractFOSRestController
         $this->logger->info($request->getContent());
 
         $res = json_decode($request->getContent(), true);
-        $this->logger->info("--------------------------------");
-        $this->logger->info(json_encode($res['data']));
         $data=$res['data'];
 
         $user=new User();
         $user->setEmail($data['email']);
-        $user->setUsername($data['username']);
+        $user->setUsername($data['email']);
         $user->setName($data['name']);
         $plainPassword = $data['password'];
         $hashedPassword = $this->passwordEncoder->hashPassword($user, $plainPassword);
         $user->setPassword($hashedPassword);
         if (!empty($data['phone'])){
             $user->setPhone($data['phone']);
-            $user->setAvatar($data['avatar']);
         }
-        $user->setRoles(["ROLE_USER"]);
+        $user->setRoles(["ROLE_VENDOR"]);
         $user->setIsactivate(true);
         $this->doctrine->persist($user);
         $customer=new Customer();
         $customer->setCompte($user);
         $date1 = date_create(date("Y-m-d "),new \DateTimeZone('Africa/Brazzaville'));
-        $customer->setDatecreation($date1);
         $this->doctrine->persist($customer);
         $this->doctrine->flush();
         $body=[
@@ -124,6 +116,60 @@ class AuthApiController extends AbstractFOSRestController
             'email'=>$user->getEmail(),
             'avatar'=>$user->getAvatar(),
             'customer'=>$customer->getId(),
+        ];
+        $view = $this->view($body, Response::HTTP_OK, []);
+        return $this->handleView($view);
+    }
+    /**
+     * @Rest\Post("/v1/api_register_shop", name="api_register_shop")
+     * @param Request $request
+     */
+    public function registerShop(Request $request)
+    {
+        $res = json_decode($request->getContent(), true);
+        $data=$res['data'];
+        $user=new User();
+        $user->setEmail($data['email']);
+        $user->setUsername($data['email']);
+        $user->setName($data['name']);
+        $plainPassword = $data['password'];
+        $hashedPassword = $this->passwordEncoder->hashPassword($user, $plainPassword);
+        $user->setPassword($hashedPassword);
+        if (!empty($data['phone'])){
+            $user->setPhone($data['phone']);
+        }
+        $user->setRoles(["ROLE_VENDOR"]);
+        $user->setIsactivate(true);
+        $this->doctrine->persist($user);
+        $shop = new Shop();
+        $shop->setName($data['name']);
+        $shop->setCity($data['city']);
+        $shop->setAddress($data['address']);
+        $shop->setPhone($data['phone']);
+        $shop->setPhone2($data['phone2']);
+        $shop->setCountry($data['country']);
+        $shop->setCountrycode($data['countrycode']);
+        $shop->setAddress2($data['address2']);
+
+        if (null == $shop->getSlug() || '' == $shop->getSlug()) {
+            $slug = str_replace(' ', '_', strtolower($shop->getName()));
+            $shop->setSlug($slug);
+        } else {
+            $slug = str_replace(' ', '_', strtolower($shop->getSlug()));
+            $shop->setSlug($slug);
+        }
+        if (!empty($data['speciality'])) {
+            $speciality = $this->specialityRepository->find($data['speciality']);
+            $shop->setSpeciality($speciality);
+
+        }
+        $shop->setCompte($user);
+        $this->doctrine->persist($shop);
+        $this->doctrine->flush();
+        $body=[
+            'id'=>$user->getId(),
+            'name'=>$user->getName(),
+            'email'=>$user->getEmail(),
         ];
         $view = $this->view($body, Response::HTTP_OK, []);
         return $this->handleView($view);

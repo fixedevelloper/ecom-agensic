@@ -1,6 +1,6 @@
 {% extends 'Front/base.html.twig' %}
 {% block title %}
-
+Login|
 {% endblock %}
 {% block body %}
 
@@ -29,22 +29,27 @@
                     <div class="col-lg-8 col-12">
                         <div class="form-main">
                             <div class="title">
-                                <h3>Login or <a class="btn bg-primary" href="{{ path('accountpage') }}">Register</a></h3>
+                                <h3>Login or <a class="btn bg-primary" href="{{ path('registerpage') }}">Register</a></h3>
                             </div>
-                            <form class="form" method="post">
+                            {% if error %}
+                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData,'security') }}</div>
+                            {% endif %}
+                            <form class="form" method="post" action="{{ path('login') }}">
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
                                         <div class="form-group">
                                             <label>Email<span></span></label>
-                                            <input name="email" type="email" placeholder="Your email">
+                                            <input name="_username" type="email" placeholder="Your email">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-12">
                                         <div class="form-group">
                                             <label>Password<span>*</span></label>
-                                            <input name="password" type="password" placeholder="">
+                                            <input name="_password" type="password" placeholder="">
                                         </div>
                                     </div>
+                                    <input type="hidden" name="_csrf_token" class="form-control form-control-user"
+                                           id="exampleInputPassword" value="{{ csrf_token('authenticate') }}">
                                     <div class="col-12">
                                         <div class="form-group button">
                                             <button type="submit" class="btn ">Login</button>

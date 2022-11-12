@@ -39,20 +39,71 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Product[] Returns an array of Product objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @param $max
+     * @return Product[] Returns an array of Product objects
+     */
+    public function findByBestseller($max): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
+            ->setMaxResults($max)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    /**
+     * @param $max
+     * @return Product[] Returns an array of Product objects
+     */
+    public function findPopularproducts($max): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
+            ->setMaxResults($max)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    /**
+     * @param $max
+     * @return Product[] Returns an array of Product objects
+     */
+    public function findNewArrivals($max): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
+            ->setMaxResults($max)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    /**
+     * @param $max
+     * @return Product[] Returns an array of Product objects
+     */
+    public function findFeatureds($max): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
+            ->setMaxResults($max)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    /**
+     * @param $max
+     * @return Product[] Returns an array of Product objects
+     */
+    public function findCategories($max): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
+            ->setMaxResults($max)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
 //    public function findOneBySomeField($value): ?Product
 //    {

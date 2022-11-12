@@ -107,6 +107,9 @@ class Product
     #[ORM\Column(nullable: true)]
     private ?float $height = null;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?Shop $shop = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -130,6 +133,182 @@ class Product
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string|null $status
+     */
+    public function setStatus(?string $status): void
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getFeatured(): ?bool
+    {
+        return $this->featured;
+    }
+
+    /**
+     * @param bool|null $featured
+     */
+    public function setFeatured(?bool $featured): void
+    {
+        $this->featured = $featured;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCatalogVisibility(): ?string
+    {
+        return $this->catalog_visibility;
+    }
+
+    /**
+     * @param string|null $catalog_visibility
+     */
+    public function setCatalogVisibility(?string $catalog_visibility): void
+    {
+        $this->catalog_visibility = $catalog_visibility;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string|null $description
+     */
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getShortDescription(): ?string
+    {
+        return $this->short_description;
+    }
+
+    /**
+     * @param string|null $short_description
+     */
+    public function setShortDescription(?string $short_description): void
+    {
+        $this->short_description = $short_description;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSku(): ?string
+    {
+        return $this->sku;
+    }
+
+    /**
+     * @param string|null $sku
+     */
+    public function setSku(?string $sku): void
+    {
+        $this->sku = $sku;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTaxStatus(): ?string
+    {
+        return $this->tax_status;
+    }
+
+    /**
+     * @param string|null $tax_status
+     */
+    public function setTaxStatus(?string $tax_status): void
+    {
+        $this->tax_status = $tax_status;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTaxClass(): ?string
+    {
+        return $this->tax_class;
+    }
+
+    /**
+     * @param string|null $tax_class
+     */
+    public function setTaxClass(?string $tax_class): void
+    {
+        $this->tax_class = $tax_class;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getShippingRequired(): ?bool
+    {
+        return $this->shipping_required;
+    }
+
+    /**
+     * @param bool|null $shipping_required
+     */
+    public function setShippingRequired(?bool $shipping_required): void
+    {
+        $this->shipping_required = $shipping_required;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getShippingTaxable(): ?bool
+    {
+        return $this->shipping_taxable;
+    }
+
+    /**
+     * @param bool|null $shipping_taxable
+     */
+    public function setShippingTaxable(?bool $shipping_taxable): void
+    {
+        $this->shipping_taxable = $shipping_taxable;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getOnSale(): ?bool
+    {
+        return $this->on_sale;
+    }
+
+    /**
+     * @param bool|null $on_sale
+     */
+    public function setOnSale(?bool $on_sale): void
+    {
+        $this->on_sale = $on_sale;
     }
 
     public function getSlug(): ?string
@@ -440,6 +619,18 @@ class Product
     public function setHeight(?float $height): self
     {
         $this->height = $height;
+
+        return $this;
+    }
+
+    public function getShop(): ?Shop
+    {
+        return $this->shop;
+    }
+
+    public function setShop(?Shop $shop): self
+    {
+        $this->shop = $shop;
 
         return $this;
     }

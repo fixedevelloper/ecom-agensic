@@ -6,245 +6,179 @@
     {{ parent() }}
     <link href="{{ asset('assets/front/pages/css/style-shop.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/front/plugins/fancybox/source/jquery.fancybox.css') }}" rel="stylesheet">
+    <style type="text/css">
+        .vendor {
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+    </style>
 {% endblock %}
 {% block body %}
-    <div class="main">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
         <div class="container">
-            <ul class="breadcrumb">
-                <li><a href="{{ path('home') }}">Home</a></li>
-                <li><a href="{{ path('product_shop') }}">Store</a></li>
-                <li class="active">{{ product.name }}</li>
-            </ul>
-            <!-- BEGIN SIDEBAR & CONTENT -->
-            <div class="row margin-bottom-40">
-                <!-- BEGIN SIDEBAR -->
-                <div class="sidebar col-md-3 col-sm-5">
-                    <ul class="list-group margin-bottom-25 sidebar-menu">
-                        {{ render(controller('App\\Controller\\Front\\DefaultController::categorielist')) }}
-                    </ul>
-                    <div class="shop-home-list section">
-                        {{ render(controller('App\\Controller\\Front\\DefaultController::bestseller')) }}
-
+            <div class="row">
+                <div class="col-12">
+                    <div class="bread-inner">
+                        <ul class="bread-list">
+                            <li><a href="{{ path('home') }}">Home<i class="ti-arrow-right"></i></a></li>
+                            <li class="active"><a href="#">Order detail</a></li>
+                        </ul>
                     </div>
                 </div>
-                <!-- END SIDEBAR -->
-
-                <!-- BEGIN CONTENT -->
-                <div class="col-md-9 col-sm-7">
-                    <div class="product-page">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <div class="product-main-image">
-                                    <img src="{{ asset('' ~ image ) }}"
-                                         alt="Cool green dress with red bell" class="img-responsive"
-                                         data-BigImgsrc="{{ asset('' ~ image) }}">
-                                </div>
-                                <div class="product-other-images">
-                                    {% for im in product.images %}
-                                    <a href="{{ asset('' ~ im.src) }}"
-                                       class="fancybox-button" rel="photos-lib">
-                                        <img alt="Berry Lace Dress" src="{{ asset('' ~ im.src) }}"></a>
-
-                                    {% endfor %}
-                              </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <h1>{{ product.name }}</h1>
-                                <div class="price-availability-block clearfix">
-                                    <div class="price">
-                                        <strong><span>$</span>{{ product.salePrice }}.00</strong>
-                                        <em>$<span>{{ product.regularPrice }}.00</span></em>
-                                    </div>
-                                    <div class="availability">
-                                        Availability: <strong>In Stock</strong>
-                                    </div>
-                                </div>
-                                <div class="description">
-                                    <p>Lorem ipsum dolor ut sit ame dolore adipiscing elit, sed nonumy nibh sed euismod
-                                        laoreet dolore magna aliquarm erat volutpat
-                                        Nostrud duis molestie at dolore.</p>
-                                </div>
-                               {# <div class="product-page-options">
-                                    <div class="pull-left">
-                                        <label class="control-label">Size:</label>
-                                        <select class="form-control input-sm">
-                                            <option>L</option>
-                                            <option>M</option>
-                                            <option>XL</option>
-                                        </select>
-                                    </div>
-                                    <div class="pull-left">
-                                        <label class="control-label">Color:</label>
-                                        <select class="form-control input-sm">
-                                            <option>Red</option>
-                                            <option>Blue</option>
-                                            <option>Black</option>
-                                        </select>
-                                    </div>
-                                </div>#}
-                                <div class="product-page-cart">
-                                    <div class="product-quantity">
-                                        <input id="product-quantity" type="text" value="1" readonly
-                                               class="form-control input-sm">
-                                    </div>
-                                    <button class="btn btn-primary add-to-cart" type="button">Add to cart</button>
-                                </div>
-                                <div class="review">
-                                    <input type="range" value="4" step="0.25" id="backing4">
-                                    <div class="rateit" data-rateit-backingfld="#backing4" data-rateit-resetable="false"
-                                         data-rateit-ispreset="true" data-rateit-min="0" data-rateit-max="5">
-                                    </div>
-                                    <a href="javascript:;">7 reviews</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;">Write
-                                        a review</a>
-                                </div>
-                                <ul class="social-icons">
-                                    <li><a class="facebook" data-original-title="facebook" href="javascript:;"></a></li>
-                                    <li><a class="twitter" data-original-title="twitter" href="javascript:;"></a></li>
-                                    <li><a class="googleplus" data-original-title="googleplus" href="javascript:;"></a>
-                                    </li>
-                                    <li><a class="evernote" data-original-title="evernote" href="javascript:;"></a></li>
-                                    <li><a class="tumblr" data-original-title="tumblr" href="javascript:;"></a></li>
-                                </ul>
-                            </div>
-
-                            <div class="product-page-content">
-                                <ul id="myTab" class="nav nav-tabs">
-                                    <li class="active"><a href="#Description" data-toggle="tab">Description</a></li>
-                                    <li><a href="#Information" data-toggle="tab">Information</a></li>
-                                    <li><a href="#Reviews" data-toggle="tab">Reviews (2)</a></li>
-                                </ul>
-                                <div id="myTabContent" class="tab-content">
-                                    <div class="tab-pane fade in active" id="Description">
-                                        <p>Lorem ipsum dolor ut sit ame dolore adipiscing elit, sed sit nonumy nibh sed
-                                            euismod laoreet dolore magna aliquarm erat sit volutpat Nostrud duis
-                                            molestie at dolore. Lorem ipsum dolor ut sit ame dolore adipiscing elit, sed
-                                            sit nonumy nibh sed euismod laoreet dolore magna aliquarm erat sit volutpat
-                                            Nostrud duis molestie at dolore. Lorem ipsum dolor ut sit ame dolore
-                                            adipiscing elit, sed sit nonumy nibh sed euismod laoreet dolore magna
-                                            aliquarm erat sit volutpat Nostrud duis molestie at dolore. </p>
-                                    </div>
-                                    <div class="tab-pane fade" id="Information">
-                                        <table class="datasheet">
-                                            <tr>
-                                                <th colspan="2">Additional features</th>
-                                            </tr>
-                                            <tr>
-                                                <td class="datasheet-features-type">Value 1</td>
-                                                <td>21 cm</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="datasheet-features-type">Value 2</td>
-                                                <td>700 gr.</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="datasheet-features-type">Value 3</td>
-                                                <td>10 person</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="datasheet-features-type">Value 4</td>
-                                                <td>14 cm</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="datasheet-features-type">Value 5</td>
-                                                <td>plastic</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="tab-pane fade" id="Reviews">
-                                        <!--<p>There are no reviews for this product.</p>-->
-                                        <div class="review-item clearfix">
-                                            <div class="review-item-submitted">
-                                                <strong>Bob</strong>
-                                                <em>30/12/2013 - 07:37</em>
-                                                <div class="rateit" data-rateit-value="5" data-rateit-ispreset="true"
-                                                     data-rateit-readonly="true"></div>
-                                            </div>
-                                            <div class="review-item-content">
-                                                <p>Sed velit quam, auctor id semper a, hendrerit eget justo. Cum sociis
-                                                    natoque penatibus et magnis dis parturient montes, nascetur
-                                                    ridiculus mus. Duis vel arcu pulvinar dolor tempus feugiat id in
-                                                    orci. Phasellus sed erat leo. Donec luctus, justo eget ultricies
-                                                    tristique, enim mauris bibendum orci, a sodales lectus purus ut
-                                                    lorem.</p>
-                                            </div>
-                                        </div>
-                                        <div class="review-item clearfix">
-                                            <div class="review-item-submitted">
-                                                <strong>Mary</strong>
-                                                <em>13/12/2013 - 17:49</em>
-                                                <div class="rateit" data-rateit-value="2.5" data-rateit-ispreset="true"
-                                                     data-rateit-readonly="true"></div>
-                                            </div>
-                                            <div class="review-item-content">
-                                                <p>Sed velit quam, auctor id semper a, hendrerit eget justo. Cum sociis
-                                                    natoque penatibus et magnis dis parturient montes, nascetur
-                                                    ridiculus mus. Duis vel arcu pulvinar dolor tempus feugiat id in
-                                                    orci. Phasellus sed erat leo. Donec luctus, justo eget ultricies
-                                                    tristique, enim mauris bibendum orci, a sodales lectus purus ut
-                                                    lorem.</p>
-                                            </div>
-                                        </div>
-
-                                        <!-- BEGIN FORM-->
-                                        <form action="#" class="reviews-form" role="form">
-                                            <h2>Write a review</h2>
-                                            <div class="form-group">
-                                                <label for="name">Name <span class="require">*</span></label>
-                                                <input type="text" class="form-control" id="name">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="email">Email</label>
-                                                <input type="text" class="form-control" id="email">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="review">Review <span class="require">*</span></label>
-                                                <textarea class="form-control" rows="8" id="review"></textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="email">Rating</label>
-                                                <input type="range" value="4" step="0.25" id="backing5">
-                                                <div class="rateit" data-rateit-backingfld="#backing5"
-                                                     data-rateit-resetable="false" data-rateit-ispreset="true"
-                                                     data-rateit-min="0" data-rateit-max="5">
-                                                </div>
-                                            </div>
-                                            <div class="padding-top-20">
-                                                <button type="submit" class="btn btn-primary">Send</button>
-                                            </div>
-                                        </form>
-                                        <!-- END FORM-->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="sticker sticker-sale"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- END CONTENT -->
             </div>
-            <!-- END SIDEBAR & CONTENT -->
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+    <section id="contact-us" class="contact-us section">
+        <div class="">
+            <div class="container">
+                <!-- BEGIN SIDEBAR & CONTENT -->
+                <div class="row margin-bottom-40">
+                    <!-- BEGIN SIDEBAR -->
+                    <div class="sidebar col-md-3 col-sm-5">
+                        <div class="main-sidebar">
+                            <div class="single-widget category">
+                                {{ render(controller('App\\Controller\\Front\\DefaultController::categorielist')) }}
+                            </div>
+                        </div>
+                            <div class="single-widget category shop-home-list section">
+                                {{ render(controller('App\\Controller\\Front\\DefaultController::bestseller')) }}
 
-            <div class="product-area most-popular section">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="section-title">
-                                <h2>Popular products</h2>
+                        </div>
+                    </div>
+                    <!-- END SIDEBAR -->
+
+                    <!-- BEGIN CONTENT -->
+                    <div class="col-md-9 col-sm-7">
+                        <div class="product-page">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="product-main-image">
+                                        <img src="{{ asset('' ~ image ) }}"
+                                             alt="Cool green dress with red bell" class="img-responsive"
+                                             data-BigImgsrc="{{ asset('' ~ image) }}">
+                                    </div>
+                                    <div class="product-other-images">
+                                        {% for im in product.images %}
+                                            <a href="{{ asset('' ~ im.src) }}"
+                                               class="fancybox-button" rel="photos-lib">
+                                                <img alt="Berry Lace Dress" src="{{ asset('' ~ im.src) }}"></a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <h3 class="mt-3 mb-3">{{ product.name }}</h3>
+                                    <div class="price-availability-block clearfix">
+                                        <div class="price">
+                                            <strong><span>$</span>{{ product.salePrice }}.00</strong>
+                                            <em>$<span>{{ product.regularPrice }}.00</span></em>
+                                        </div>
+                                        <div class="availability">
+                                            Availability: {% if product.inStock %}<strong>In Stock</strong>{% else %}
+                                                <strong>Out Stock</strong>{% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="description">
+                                        <p>{{ product.shortDescription }}</p>
+                                    </div>
+                                    <div class="vendor">
+                                        <h5>Seller: <a
+                                                    href="{{ path('shop_page', {'slug': product.shop.slug }) }}">{{ product.shop.name }}</a>
+                                        </h5>
+
+                                    </div>
+
+                                    <div class="product-page-cart">
+                                        <div class="product-quantity">
+                                            <input id="product-quantity" type="text" value="1" readonly
+                                                   class="form-control input-sm">
+                                        </div>
+                                        <button class="btn btn-primary add-to-cart" type="button">Add to cart</button>
+                                    </div>
+                                    <div class="review">
+                                        <input type="range" value="4" step="0.25" id="backing4">
+                                        <div class="rateit" data-rateit-backingfld="#backing4"
+                                             data-rateit-resetable="false"
+                                             data-rateit-ispreset="true" data-rateit-min="0" data-rateit-max="5">
+                                        </div>
+                                        <a href="javascript:;">7 reviews</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
+                                                href="javascript:;">Write
+                                            a review</a>
+                                    </div>
+                                    <ul class="social-icons">
+                                        <li><a class="facebook" data-original-title="facebook" href="javascript:;"></a>
+                                        </li>
+                                        <li><a class="twitter" data-original-title="twitter" href="javascript:;"></a>
+                                        </li>
+                                        <li><a class="googleplus" data-original-title="googleplus"
+                                               href="javascript:;"></a>
+                                        </li>
+                                        <li><a class="evernote" data-original-title="evernote" href="javascript:;"></a>
+                                        </li>
+                                        <li><a class="tumblr" data-original-title="tumblr" href="javascript:;"></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product-info">
+                                    <div class="nav-main">
+                                        <!-- Tab Nav -->
+                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            <li class="nav-item"><a class="nav-link active" data-toggle="tab"
+                                                                    href="#description" role="tab">Description</a></li>
+                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#option"
+                                                                    role="tab">Options</a></li>
+                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#review"
+                                                                    role="tab">Reviews</a></li>
+                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#comment"
+                                                                    role="tab">Comments</a></li>
+                                        </ul>
+                                        <!--/ End Tab Nav -->
+                                    </div>
+                                    <div class="tab-content" id="myTabContent">
+                                        <!-- Start Single Tab -->
+                                        <div class="tab-pane fade show active" id="description" role="tabpanel">
+                                            <div class="tab-single">
+                                                <p>Description</p>
+                                            </div>
+                                        </div>
+                                        <!-- Start Single Tab -->
+                                        <div class="tab-pane fade" id="option" role="tabpanel">
+                                            <div class="tab-single">
+                                                <p>Option</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="sticker sticker-sale"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="owl-carousel popular-slider">
-                                {{ render(controller('App\\Controller\\Front\\DefaultController::popularproduct')) }}
+                    <!-- END CONTENT -->
+                </div>
+                <!-- END SIDEBAR & CONTENT -->
+
+                <div class="product-area most-popular section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="section-title">
+                                    <h2>Popular products</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="owl-carousel popular-slider">
+                                    {{ render(controller('App\\Controller\\Front\\DefaultController::popularproduct')) }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     <!-- Modal -->
     {{ render(controller('App\\Controller\\Front\\DefaultController::productmodal')) }}
     <!-- Modal end -->
@@ -254,13 +188,16 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/front/plugins/fancybox/source/jquery.fancybox.pack.js') }}" type="text/javascript"></script><!-- pop up -->
-     <script src='{{ asset('assets/front/plugins/zoom/jquery.zoom.min.js') }}' type="text/javascript"></script><!-- product zoom -->
-    <script src="{{ asset('assets/front/plugins/bootstrap-touchspin/bootstrap.touchspin.min.js') }}" type="text/javascript"></script><!-- Quantity -->
+    <script src="{{ asset('assets/front/plugins/fancybox/source/jquery.fancybox.pack.js') }}"
+            type="text/javascript"></script><!-- pop up -->
+    <script src='{{ asset('assets/front/plugins/zoom/jquery.zoom.min.js') }}'
+            type="text/javascript"></script><!-- product zoom -->
+    <script src="{{ asset('assets/front/plugins/bootstrap-touchspin/bootstrap.touchspin.min.js') }}"
+            type="text/javascript"></script><!-- Quantity -->
     <script src="{{ asset('assets/front/corporate/scripts/layout.js') }}" type="text/javascript"></script>
 
     <script type="text/javascript">
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             Layout.init();
             Layout.initOWL();
             Layout.initImageZoom();
@@ -284,7 +221,7 @@
                 });
                 window.open(urlpourcentage, '_parent')
             })
-            $('.product-action-2 a').click(function () {
+            $('.add-to-cart').click(function () {
                 $.ajax({
                     url: "{{ path('add_cart_json') }}",
                     type: "POST",
@@ -294,7 +231,9 @@
                         quantity: $('#product-quantity').val(),
                     },
                     success: function (data) {
-                        window.location.reload();
+                        var url = Routing.generate('show_cart');
+                        //window.open(url)
+                        window.open(url, '_parent');
                     },
                     error: function (err) {
                         setTimeout(function () {

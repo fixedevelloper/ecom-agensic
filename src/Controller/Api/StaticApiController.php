@@ -13,6 +13,8 @@ use App\Repository\CategoryRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\ImageRepository;
 use App\Repository\ProductRepository;
+use App\Repository\ShopRepository;
+use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\IntegerType;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,6 +31,8 @@ class StaticApiController extends AbstractFOSRestController
     private $attriburRepository;
     private $doctrine;
     private $imageRepository;
+    private $shopRepository;
+    private $userRepository;
 
     /**
      * StaticApiController constructor.
@@ -39,7 +43,7 @@ class StaticApiController extends AbstractFOSRestController
      * @param CategoryRepository $categoryRepository
      * @param AttributeRepository $attriburRepository
      */
-    public function __construct(ImageRepository $imageRepository, EntityManagerInterface $entityManager, ProductRepository $productRepository, CustomerRepository $customerRepository,
+    public function __construct(UserRepository $userRepository,ShopRepository $shopRepository,ImageRepository $imageRepository, EntityManagerInterface $entityManager, ProductRepository $productRepository, CustomerRepository $customerRepository,
                                 CategoryRepository $categoryRepository, AttributeRepository $attriburRepository)
     {
         $this->productRepository = $productRepository;
@@ -47,6 +51,8 @@ class StaticApiController extends AbstractFOSRestController
         $this->categoryRepository = $categoryRepository;
         $this->attriburRepository = $attriburRepository;
         $this->imageRepository = $imageRepository;
+        $this->shopRepository=$shopRepository;
+        $this->userRepository=$userRepository;
         $this->doctrine = $entityManager;
     }
 
@@ -62,6 +68,9 @@ class StaticApiController extends AbstractFOSRestController
             $product = $this->productRepository->find($data['id']);
         } else {
             $product = new Product();
+            $user=$this->userRepository->find($data['vendor']);
+            $shop=$this->shopRepository->findOneBy(['compte'=>$user]);
+            $product->setShop($shop);
             $this->doctrine->persist($product);
         }
         $product->setName($data['name']);
@@ -126,7 +135,7 @@ class StaticApiController extends AbstractFOSRestController
                 'id' => $product->getId(),
                 'name' => $product->getName(),
                 'price' => $product->getPrice(),
-                'managestock' => $product->getId(),
+                'managestock' => $product->isManageStock(),
                 'width' => $product->getWidth(),
                 'stockquantity' => $product->getStockQuantity(),
                 'weight' => $product->getWeight(),

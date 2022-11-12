@@ -35,13 +35,6 @@
     <link href="{{ asset('assets/front/plugins/fancybox/source/jquery.fancybox.css') }}" rel="stylesheet">
 {% endblock %}
 {% block body %}
-    {#<div class="title-wrapper">
-        <div class="container"><div class="container-inner">
-                <h1><span> {% if category is not null %}{{ category.name }}{% endif %}</span> CATEGORY</h1>
-                <em>Over 4000 Items are available here</em>
-            </div></div>
-    </div>#}
-    <!-- Breadcrumbs -->
     <div class="breadcrumbs">
         <div class="container">
             <div class="row">
@@ -62,32 +55,21 @@
 
     <div class="main">
         <div class="container">
-            {#    <ul class="breadcrumb">
-                    <li><a href="{{ path('home') }}">Home</a></li>
-                    <li><a href="">Store</a></li>
-                    <li class="active">{% if category is not null %}{{ category.name }}{% endif %}</li>
-                </ul>#}
             <!-- BEGIN SIDEBAR & CONTENT -->
             <div class="row margin-bottom-40">
                 <!-- BEGIN SIDEBAR -->
                 <div class="main-sidebar col-md-3 col-sm-5">
                     {{ render(controller('App\\Controller\\Front\\DefaultController::categorielist')) }}
-                    {#  <ul class="list-group margin-bottom-25 sidebar-menu">
-                          {% for category in categories %}
-                              <li class="list-group-item clearfix"><a href="{{ path('product_shop',{'t': category.slug }) }}"><i
-                                              class="fa fa-angle-right"></i> {{ category.name }}</a></li>
-                          {% endfor %}
-                      </ul>#}
 
-                    <div class="sidebar-filter margin-bottom-25">
-                        <h2>Filter</h2>
-                        <h3>Availability</h3>
+                    <div class="single-widget sidebar-filter margin-bottom-25">
+                        <h3 class="title">Filter</h3>
+                        <h4>Availability</h4>
                         <div class="checkbox-list">
                             <label><input type="checkbox"> Not Available (3)</label>
                             <label><input type="checkbox"> In Stock (26)</label>
                         </div>
 
-                        <h3>Price</h3>
+                        <h3 class="title">Price</h3>
                         <p>
                             <label for="amount">Range:</label>
                             <input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;">
@@ -159,30 +141,13 @@
                                         </div>
                                     </div>
                                     <div class="product-content">
-                                        <h3><a href="{{ path('product_detail', {'slug': prod.slug }) }}">Black Sunglass For Women</a></h3>
+                                        <h3><a href="{{ path('product_detail', {'slug': prod.slug }) }}">{{ prod.name }}</a></h3>
                                         <div class="product-price">
                                             <span class="old">${{ prod.price }}</span>
                                             <span>${{ prod.price }}</span>
                                         </div>
                                     </div>
                                 </div>
-                               {# <div class="product-item">
-                                    <div class="pi-img-wrapper">
-                                        <img src="{{ asset('' ~ prod.image)  | imagine_filter('product_cat') }}"
-                                             class="img-responsive" alt="Berry Lace Dress">
-                                        <div>
-                                            <a href="{{ asset('' ~ prod.image) }}"
-                                               class="btn btn-default fancybox-button">Zoom</a>
-                                            <a href="#product-pop-up" class="btn btn-default fancybox-fast-view"
-                                               data-id="{{ prod.id }}" data-value="{{ prod.slug }}">View</a>
-                                        </div>
-                                    </div>
-                                    <h3><a href="{{ path('product_detail', {'slug': prod.slug }) }}">{{ prod.name }}</a>
-                                    </h3>
-                                    <div class="pi-price">${{ prod.price }}.00</div>
-                                    <a href="javascript:;" class="btn btn-default add2cart" data-id="{{ prod.id }}">Add
-                                        to cart</a>
-                                </div>#}
                             </div>
                         {% endfor %}
                         <!-- PRODUCT ITEM END -->
@@ -211,7 +176,28 @@
             <!-- END SIDEBAR & CONTENT -->
         </div>
     </div>
-
+    <!-- Start Shop Newsletter  -->
+    <section class="shop-newsletter section">
+        <div class="container">
+            <div class="inner-top">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2 col-12">
+                        <!-- Start Newsletter Inner -->
+                        <div class="inner">
+                            <h4>Newsletter</h4>
+                            <p> Subscribe to our newsletter and get <span>10%</span> off your first purchase</p>
+                            <form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
+                                <input name="EMAIL" placeholder="Your email address" required="" type="email">
+                                <button class="btn">Subscribe</button>
+                            </form>
+                        </div>
+                        <!-- End Newsletter Inner -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Shop Newsletter -->
     <!-- Modal -->
     {{ render(controller('App\\Controller\\Front\\DefaultController::productmodal')) }}
     <!-- Modal end -->
@@ -249,7 +235,9 @@
                         quantity: $('#product-quantity').val(),
                     },
                     success: function (data) {
-                        window.location.reload();
+                        var url = Routing.generate('show_cart');
+                        //window.open(url)
+                        window.open(url, '_parent');
                     },
                     error: function (err) {
                         setTimeout(function () {
@@ -269,7 +257,9 @@
                         quantity: 1,
                     },
                     success: function (data) {
-                        window.location.reload();
+                        var url = Routing.generate('show_cart');
+                        //window.open(url)
+                        window.open(url, '_parent');
                     },
                     error: function (err) {
                         setTimeout(function () {

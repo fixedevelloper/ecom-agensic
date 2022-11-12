@@ -1,6 +1,6 @@
 {% extends 'Front/base.html.twig' %}
 {% block title %}
-
+Cart|
 {% endblock %}
 {% block body %}
     <!-- Breadcrumbs -->
@@ -10,8 +10,8 @@
                 <div class="col-12">
                     <div class="bread-inner">
                         <ul class="bread-list">
-                            <li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
-                            <li class="active"><a href="blog-single.html">Cart</a></li>
+                            <li><a href="{{ path('home') }}">Home<i class="ti-arrow-right"></i></a></li>
+                            <li class="active"><a href="#">Cart</a></li>
                         </ul>
                     </div>
                 </div>
@@ -42,8 +42,8 @@
                         <tr>
                             <td class="image" data-title="No"><img src="https://via.placeholder.com/100x100" alt="#"></td>
                             <td class="product-des" data-title="Description">
-                                <p class="product-name"><a href="#">{{ item.product_name }}</a></p>
-                                <p class="product-des">Maboriosam in a tonto nesciung eget  distingy magndapibus.</p>
+                                <p class="product-name"><a href="{{ path('product_detail', {'slug': item.slug }) }}">{{ item.product_name }}</a></p>
+                                <p class="product-des">{{ item.product_shortdescription }}</p>
                             </td>
                             <td class="price" data-title="Price"><span>${{ item.price }} </span></td>
                             <td class="qty" data-title="Qty"><!-- Input Order -->
@@ -92,10 +92,10 @@
                             <div class="col-lg-4 col-md-7 col-12">
                                 <div class="right">
                                     <ul>
-                                        <li>Cart Subtotal<span>$330.00</span></li>
+                                        <li>Cart Subtotal<span>$<span>{{ total }}</span></span></li>
                                         <li>Shipping<span>Free</span></li>
-                                        <li>You Save<span>$20.00</span></li>
-                                        <li class="last">You Pay<span>$310.00</span></li>
+                                        <li>You Save<span>$0.00</span></li>
+                                        <li class="last">You Pay<span>${{ total }}</span></li>
                                     </ul>
                                     <div class="button5">
                                         <a href="{{ path('checkoutpage') }}" class="btn">Checkout</a>

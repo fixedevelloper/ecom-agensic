@@ -2,12 +2,19 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Billing;
 use App\Entity\Cart;
+use App\Entity\Customer;
 use App\Entity\LineItem;
+use App\Entity\Order;
 use App\Entity\Product;
+use App\Entity\ShopOrder;
+use App\Entity\ShopOrderLine;
 use App\Entity\User;
 use App\Repository\CartRepository;
+use App\Repository\CustomerRepository;
 use App\Repository\LineItemRepository;
+use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,18 +30,23 @@ class CartController extends AbstractController
 {
 
 
-    private $session;
-    private $productRepository;
-    private $cartRepository;
-    private $lineitemrepository;
-    private $doctrine;
+    private SessionInterface $session;
+    private ProductRepository $productRepository;
+    private CartRepository $cartRepository;
+    private LineItemRepository $lineitemrepository;
+    private CustomerRepository $customerRepository;
+    private OrderRepository $orderRepository;
+    private EntityManagerInterface $doctrine;
 
-    public function __construct(EntityManagerInterface $entityManager, ProductRepository $productRepository, CartRepository $cartRepository, LineItemRepository $lineItemRepository, SessionInterface $session)
+    public function __construct(OrderRepository $orderRepository,EntityManagerInterface $entityManager, ProductRepository $productRepository,CustomerRepository $customerRepository,
+                                CartRepository $cartRepository, LineItemRepository $lineItemRepository, SessionInterface $session)
     {
         $this->session = $session;
         $this->productRepository = $productRepository;
         $this->cartRepository = $cartRepository;
         $this->lineitemrepository = $lineItemRepository;
+        $this->customerRepository=$customerRepository;
+        $this->orderRepository=$orderRepository;
         $this->doctrine = $entityManager;
     }
 
@@ -46,6 +58,20 @@ class CartController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/successpage/{keyorder}", name="app_cart_successpage", options={"expose"=true})
+     * @param $keyorder
+     * @return Response
+     */
+    public function successpage($keyorder): Response
+    {
+        //il faut recuperer le denier
+        $order=$this->orderRepository->findOneBy(['number'=>$keyorder]);
+        return $this->render('Front/cart/successpage.html.twig', [
+          'order'=>$order,
+            'home'=>false
+        ]);
+    }
     public function cart(): Response
     {
         $cartId = $this->session->get('cart');
@@ -61,7 +87,7 @@ class CartController extends AbstractController
         $line_carts = [];
         $sumary = 0.0;
         foreach ($cart->getLineItems() as $lineItem) {
-            $product=$this->productRepository->find($lineItem->getProductId());
+            $product=$lineItem->getProduct();
             $image = $product->getImages()[0];
             $sumary += $lineItem->getSubtotal();
             $line_carts[] = [
@@ -127,25 +153,29 @@ class CartController extends AbstractController
         $cartId = $this->session->get('cart');
 
         $cart = $cartId ? $this->cartRepository->find($cartId) : new Cart();
-
+        $totals=0.0;
         $line_carts = [];
         foreach ($cart->getLineItems() as $lineItem) {
-            $product=$this->productRepository->find($lineItem->getProductId());
+            $product=$lineItem->getProduct();
             $image = $product->getImages()[0];
+            $subtotal=$lineItem->getQuantity()*$lineItem->getPrice();
             $line_carts[] = [
                 'product_id' => $product->getId(),
                 'product_name' => $lineItem->getName(),
+                'product_shortdescription' => $product->getShortDescription(),
                 'price' => $lineItem->getPrice(),
                 'quantity' => $lineItem->getQuantity(),
-                'subtotal'=>$lineItem->getQuantity()*$lineItem->getPrice(),
+                'subtotal'=>$subtotal,
                 'image' => $image->getSrc(),
                 'slug' => $product->getSlug()
             ];
+            $totals+=$subtotal;
         }
         return $this->render('Front/cart/view.html.twig', [
             'cart' => $cart,
             'linecarts' => $line_carts,
-            'home'=>false
+            'total'=>$totals,
+            'home'=>false,
         ]);
 
         //return $this->partial($session, true);
@@ -157,44 +187,107 @@ class CartController extends AbstractController
      *
      * @Route("/cart/checkout", name="checkout_cart", methods={"GET","POST"})
      */
-    public function checkout(Request $request, UserInterface $user)
+    public function checkout(Request $request)
     {
         $cartId = $this->session->get('cart');
-        $repositoryCart = $this->getDoctrine()->getRepository(Cart::class);
-        $cart = $cartId ? $repositoryCart->find($cartId) : new Cart();
-
-        $repositoryUser = $this->getDoctrine()->getRepository(User::class);
-        $user = $repositoryUser->findOneBy(['email' => $user->getUsername()]);
-
-        $form = $this->createForm(AddressChooserType::class, $user);
-        $form->handleRequest($request);
-
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $selectedAddress = $form->get('addresses')->getData();
-
-            $command = new Package();
-
-            $command->setPrice($cart->getTotal());
-            $command->setAddress($selectedAddress);
-            $command->setCreationDate(new \DateTime());
-            $command->setUser($user);
-            $command->setCart($cart);
-            //Find a better way. Pass address value to the next form
-            $command->setIsPaid(false);
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($command);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('checkout_payment', array('cmd' => $command->getId()));
+        $cart = $this->cartRepository->find($cartId);
+/*        if (is_null($this->getUser())){
+            $user=new User();
+            $user->setEmail($request->get('email'));
+            $user->setEmail($request->get('email'));
+            $billing=new Billing();
+            $this->doctrine->persist($billing);
+            $customer=new Customer();
+            $customer->setCompte($user);
+        }*/
+        $customer=$this->customerRepository->find($request->get('customer'));
+        $order=new Order();
+        $order->setShipping($customer->getShipping());
+        $order->setBilling($customer->getBilling());
+        $this->doctrine->persist($order);
+        $total=0.0;
+        foreach ($cart->getLineItems() as $lineItem){
+            $total+=$lineItem->getSubtotal();
         }
-
-        return $this->render('checkout/checkout.html.twig', [
-            'cart' => $cart,
-            'addresselect' => $form->createView(),
+        $products=array_map(function ($item){
+            return $item->getProduct();
+        }, (array)$cart->getLineItems()->getValues());
+        /// on recupere les vendeurs dans le panier
+        $shops=array_map(function ($item){
+            return $item->getProduct()->getShop();
+        }, (array)$cart->getLineItems()->getValues());
+        /// on fait une recherche sur chaque vendeur
+        foreach ($shops as $shop){
+            $orderSeller=new ShopOrder();
+            $orderSeller->setShop($shop);
+            $this->doctrine->persist($orderSeller);
+            $items=array_filter($cart->getLineItems()->getValues(),function ($item)use ($shop){
+                $bool=false;
+                if ($item->getProduct()->getShop()==$shop){
+                    $bool= true;
+                }
+                return $bool;
+            });
+            $total=0.0;
+            foreach ($items as $lineItem){
+                $shopOrderLine=new ShopOrderLine();
+                $shopOrderLine->setLineorder($lineItem);
+                $orderSeller->addShoporderliine($shopOrderLine);
+                $total+=$lineItem->getSubtotal();
+                $this->doctrine->persist($shopOrderLine);
+            }
+            $orderSeller->setTotalTax(0.0);
+            $orderSeller->setTotal($total);
+            $orderSeller->setPricesIncludeTax(0.0);
+            $orderSeller->setDiscountTotal(0.0);
+            $orderSeller->setDiscountTax(0.0);
+            $orderSeller->setParentOrder($order);
+            $orderSeller->setStatus(Order::PENDING);
+        }
+        $order->setPaymentMethod($request->get('paymentmethod'));
+        $order->setPaymentMethodTitle($request->get('paymentmethod'));
+        $order->setCurrency('USD');
+        $order->setCustomerId($customer->getId());
+        $order->setTotal($total);
+        $order->setCartHash('');
+        $order->setCartTax(null);
+        $order->setCouponLines([]);
+        $order->setCustomerIpAddress('');
+        $order->setCustomerNote('');
+        $order->setDiscountTax(null);
+        $order->setDiscountTotal(null);
+        $order->setFeeLines([]);
+        $order->setShippingTax(null);
+        $order->setPricesIncludeTax($total);
+        $order->setShippingTotal($request->get('shipping_amount'));
+        $order->setTotalTax(0.0);
+        $order->setStatus(Order::PENDING);
+        $reference="";
+        $allowed_characters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+        for ($i = 1; $i <= 12; ++$i) {
+            $reference .= $allowed_characters[rand(0, count($allowed_characters) - 1)];
+        }
+        $order->setNumber($reference);
+        $this->session->clear();
+       // $this->doctrine->remove($cart);
+        $this->doctrine->flush();
+        return new JsonResponse([
+            'result' => '',
+            'numberorder'=>$reference,
+            'message' => $products,
         ]);
+    }
+    function createBilling(Request $request,Billing $billing){
+        $billing->setAddress1($request->get('address'));
+        $billing->setEmail($request->get('email'));
+        $billing->setCity($request->get('city'));
+        $billing->setLastName($request->get('lastname'));
+        $billing->setFirstName($request->get('firstname'));
+        $billing->setCountry($request->get('country_name'));
+        $billing->setState($request->get('state'));
+        $billing->setPostcode($request->get('postal'));
+        $billing->setAddress2($request->get('address2'));
+        $billing->setCompany($request->get('company'));
     }
 
     /**
@@ -207,7 +300,7 @@ class CartController extends AbstractController
     public function removeFromCart(Request $request, Cart $cid, Product $pid)
     {
         $line = $this->lineitemrepository->findOneBy([
-            'product_id' => $pid->getId(),
+            'product' => $pid,
             'cart' => $cid
         ]);
             $this->doctrine->remove($line);
@@ -243,11 +336,11 @@ class CartController extends AbstractController
                 } else {
                     $cart = $this->cartRepository->find($cartId);
                 }
-                $cartProduct=$this->lineitemrepository->findOneBy(['product_id'=>$product->getId(),'cart'=>$cart]);
+                $cartProduct=$this->lineitemrepository->findOneBy(['product'=>$product,'cart'=>$cart]);
                 if (is_null($cartProduct)){
                     $cartProduct = new LineItem();
                     $cartProduct->setCart($cart);
-                    $cartProduct->setProductId($product->getId());
+                    $cartProduct->setProduct($product);
                     $cartProduct->setQuantity((int)$request->get('quantity'));
                     $cartProduct->setPrice($product->getSalePrice());
                     $cartProduct->setName($product->getName());

@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: '`order`')]
 class Order
 {
+    public const PENDING="PENDING";
+    public const ACCEPTED="ACCEPTED";
+    public const DELIVRED="DELIVRED";
+    public const REJECT="REJECT";
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -98,10 +102,14 @@ class Order
     #[ORM\Column(nullable: true)]
     private array $refunds = [];
 
+    #[ORM\OneToMany(mappedBy: 'parentOrder', targetEntity: ShopOrder::class)]
+    private Collection $shopOrders;
+
     public function __construct()
     {
         $this->line_items = new ArrayCollection();
         $this->shipping_lines = new ArrayCollection();
+        $this->shopOrders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -465,6 +473,36 @@ class Order
     public function setRefunds(?array $refunds): self
     {
         $this->refunds = $refunds;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ShopOrder>
+     */
+    public function getShopOrders(): Collection
+    {
+        return $this->shopOrders;
+    }
+
+    public function addShopOrder(ShopOrder $shopOrder): self
+    {
+        if (!$this->shopOrders->contains($shopOrder)) {
+            $this->shopOrders->add($shopOrder);
+            $shopOrder->setParentOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShopOrder(ShopOrder $shopOrder): self
+    {
+        if ($this->shopOrders->removeElement($shopOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($shopOrder->getParentOrder() === $this) {
+                $shopOrder->setParentOrder(null);
+            }
+        }
 
         return $this;
     }
