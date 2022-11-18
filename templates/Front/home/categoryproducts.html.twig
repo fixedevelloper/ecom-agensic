@@ -22,12 +22,12 @@
                             <div class="single-product">
                                 <div class="product-img">
                                     <a href="{{ path('product_detail', {'slug': product.slug}) }}">
-                                        <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                        <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
+                                        <img class="default-img" src="{{ asset('' ~ product.image)  | imagine_filter('product_cat')}}" alt="#">
+                                        <img class="hover-img" src="{{ asset('' ~ product.image)  | imagine_filter('product_cat')}}" alt="#">
                                     </a>
                                     <div class="button-head">
                                         <div class="product-action">
-                                            <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
+                                            <a class="_modal" data-id="{{ product.id }}" title="Quick View" href="javascript:;"><i class=" ti-eye"></i><span>Quick Shop</span></a>
                                             <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                             <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
                                         </div>
@@ -53,17 +53,17 @@
             <div class="tab-pane fade" id="women" role="tabpanel">
                 <div class="tab-single">
                     <div class="row">
-                        {% for product in products %}
+                        {% for product in products2 %}
                             <div class="col-xl-3 col-lg-4 col-md-4 col-12">
                                 <div class="single-product">
                                     <div class="product-img">
                                         <a href="{{ path('product_detail', {'slug': product.slug}) }}">
-                                            <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                            <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
+                                            <img class="default-img" src="{{ asset('' ~ product.image)  | imagine_filter('product_cat')}}" alt="#">
+                                            <img class="hover-img" src="{{ asset('' ~ product.image)  | imagine_filter('product_cat')}}" alt="#">
                                         </a>
                                         <div class="button-head">
                                             <div class="product-action">
-                                                <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
+                                                <a class="_modal" data-id="{{ product.id }}" title="Quick View" href="javascript:;"><i class=" ti-eye"></i><span>Quick Shop</span></a>
                                                 <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                                 <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
                                             </div>
@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <!--/ End Single Tab -->
+         <!--/ End Single Tab -->
             <!-- Start Single Tab -->
             <div class="tab-pane fade" id="kids" role="tabpanel">
                 <div class="tab-single">
@@ -94,12 +94,12 @@
                                 <div class="single-product">
                                     <div class="product-img">
                                         <a href="{{ path('product_detail', {'slug': product.slug}) }}">
-                                            <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                            <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
+                                            <img class="default-img" src="{{ asset('' ~ product.image)  | imagine_filter('product_cat')}}" alt="#">
+                                            <img class="hover-img" src="{{ asset('' ~ product.image)  | imagine_filter('product_cat')}}" alt="#">
                                         </a>
                                         <div class="button-head">
                                             <div class="product-action">
-                                                <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
+                                                <a class="_modal" data-id="{{ product.id }}" title="Quick View" href="javascript:;"><i class=" ti-eye"></i><span>Quick Shop</span></a>
                                                 <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                                 <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
                                             </div>
@@ -130,12 +130,12 @@
                                 <div class="single-product">
                                     <div class="product-img">
                                         <a href="{{ path('product_detail', {'slug': product.slug}) }}">
-                                            <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                            <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
+                                            <img class="default-img" src="{{ asset('' ~ product.image)  | imagine_filter('product_cat')}}" alt="#">
+                                            <img class="hover-img" src="{{ asset('' ~ product.image)  | imagine_filter('product_cat')}}" alt="#">
                                         </a>
                                         <div class="button-head">
                                             <div class="product-action">
-                                                <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
+                                                <a class="_modal" data-id="{{ product.id }}" title="Quick View" href="javascript:;"><i class=" ti-eye"></i><span>Quick Shop</span></a>
                                                 <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                                 <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
                                             </div>
@@ -166,12 +166,12 @@
                                 <div class="single-product">
                                     <div class="product-img">
                                         <a href="{{ path('product_detail', {'slug': product.slug}) }}">
-                                            <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                            <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
+                                            <img class="default-img" src="{{ asset('' ~ product.image)  | imagine_filter('product_cat')}}" alt="#">
+                                            <img class="hover-img" src="{{ asset('' ~ product.image)  | imagine_filter('product_cat')}}" alt="#">
                                         </a>
                                         <div class="button-head">
                                             <div class="product-action">
-                                                <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
+                                                <a class="_modal" data-id="{{ product.id }}" title="Quick View" href="javascript:;"><i class=" ti-eye"></i><span>Quick Shop</span></a>
                                                 <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                                 <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
                                             </div>
@@ -202,12 +202,12 @@
                                 <div class="single-product">
                                     <div class="product-img">
                                         <a href="{{ path('product_detail', {'slug': product.slug}) }}">
-                                            <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                            <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
+                                            <img class="default-img" src="{{ asset('' ~ product.image)  | imagine_filter('product_cat')}}" alt="#">
+                                            <img class="hover-img" src="{{ asset('' ~ product.image)  | imagine_filter('product_cat')}}" alt="#">
                                         </a>
                                         <div class="button-head">
                                             <div class="product-action">
-                                                <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
+                                                <a class="_modal" data-id="{{ product.id }}" title="Quick View" href="javascript:;"><i class=" ti-eye"></i><span>Quick Shop</span></a>
                                                 <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                                 <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
                                             </div>
@@ -228,27 +228,7 @@
                     </div>
                 </div>
             </div>
-            <!--/ End Single Tab -->
+            <!--/ End Single Tab -->#}
         </div>
     </div>
 </div>
-{#{% for product in products %}
-    <div>
-        <div class="product-item">
-            <div class="pi-img-wrapper">
-                <img src="{{ asset('' ~ product.image )  | imagine_filter('my_thumb')}}"
-                     class="img-responsive" alt="Berry Lace Dress">
-                <div>
-                    <a href="{{ asset('' ~ product.image )}}"
-                       class="btn btn-default fancybox-button">Zoom</a>
-                    <a href="#product-pop-up" data-id="{{ product.id }}"  data-value="{{ product.slug }}"
-                       class="btn btn-default fancybox-fast-view">View</a>
-                </div>
-            </div>
-            <h3><a href="{{ path('product_detail', {'slug': product.slug}) }}">{{ product.name }}</a></h3>
-            <div class="pi-price">${{ product.price }}.00</div>
-            <a href="javascript:;" class="btn btn-default add2cart" data-id="{{ product.id }}">Add to cart</a>
-            <div class="sticker sticker-new"></div>
-        </div>
-    </div>
-{% endfor %}#}

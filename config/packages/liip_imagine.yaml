@@ -8,5 +8,9 @@ liip_imagine:
     product_cat:
       quality: 75
       filters:
-        thumbnail: { size: [260, 238], mode: outbound }
+        thumbnail: { size: [550, 750], mode: outbound }
+    product_small:
+      quality: 75
+      filters:
+        thumbnail: { size: [115, 140], mode: outbound }
 

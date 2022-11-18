@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 
 use App\Entity\Category;
+use App\Entity\Product;
 use App\Repository\AttributeRepository;
 use App\Repository\CartRepository;
 use App\Repository\CategoryRepository;
@@ -15,6 +16,7 @@ use App\Service\EndpointService;
 use App\Service\paiement\TransferzeroService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -110,10 +112,11 @@ class DefaultController extends AbstractController
             'home'=>false
         ]);
     }
-    public function productmodal(): Response
+    public function productmodal(Product $product,$modal): Response
     {
         return $this->render('Front/home/productmodal.html.twig', [
-
+            'product'=>$product,
+            'modal'=>$modal
         ]);
     }
     public function bestseller(): Response
@@ -243,11 +246,45 @@ class DefaultController extends AbstractController
     public function categoryproducts(): Response
     {
         $products_=$this->productRepository->findCategories(8);
+        $products2_=$this->productRepository->findCategories(8);
         $products=[];
+        $products2=[];
         foreach ($products_ as $product){
+            $reference = "";
+            $allowed_characters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+            for ($i = 1; $i <= 12; ++$i) {
+                $reference .= $allowed_characters[rand(0, count($allowed_characters) - 1)];
+            }
             $image = $product->getImages()[0];
             $products[]=[
                 'name'=>$product->getName(),
+                'modal'=>$reference,
+                'id'=>$product->getId(),
+                'slug'=>$product->getSlug(),
+                'price' => $product->getPrice(),
+                'managestock' => $product->getId(),
+                'width' => $product->getWidth(),
+                'stockquantity' => $product->getStockQuantity(),
+                'weight' => $product->getWeight(),
+                'length' => $product->getLength(),
+                'height' => $product->getHeight(),
+                'image' => is_null($image) ? "" :  $image->getSrc(),
+                'type' => $product->getType(),
+                'saleprice' => $product->getSalePrice(),
+                'images'=>$product->getImages(),
+                'regularprice' => $product->getRegularPrice(),
+            ];
+        }
+        foreach ($products_ as $product){
+            $image = $product->getImages()[0];
+            $reference = "";
+            $allowed_characters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+            for ($i = 1; $i <= 12; ++$i) {
+                $reference .= $allowed_characters[rand(0, count($allowed_characters) - 1)];
+            }
+            $products2[]=[
+                'name'=>$product->getName(),
+                'modal'=>$reference,
                 'id'=>$product->getId(),
                 'slug'=>$product->getSlug(),
                 'price' => $product->getPrice(),
@@ -265,7 +302,8 @@ class DefaultController extends AbstractController
             ];
         }
         return $this->render('Front/home/categoryproducts.html.twig', [
-            'products'=>$products
+            'products'=>$products,
+            'products2'=>$products2
         ]);
     }
     public function popularproduct(): Response
@@ -273,9 +311,15 @@ class DefaultController extends AbstractController
         $products_=$this->productRepository->findPopularproducts(8);
         $products=[];
         foreach ($products_ as $product){
+            $reference = "";
+            $allowed_characters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+            for ($i = 1; $i <= 12; ++$i) {
+                $reference .= $allowed_characters[rand(0, count($allowed_characters) - 1)];
+            }
             $image = $product->getImages()[0];
             $products[]=[
                 'name'=>$product->getName(),
+                'modal'=>$reference.'_'.$product->getId(),
                 'id'=>$product->getId(),
                 'slug'=>$product->getSlug(),
                 'price' => $product->getPrice(),
@@ -447,5 +491,24 @@ class DefaultController extends AbstractController
             'customer'=>$customer,
             'islogged'=>$islogged
         ]);
+    }
+    /**
+     * @Route("/quickview/show", name="quick_view_ajax", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function quickviewJson(Request $request)
+    {
+        $product = $this->productRepository->find($request->get('product_id'));
+        $image = $product->getImages()[0];
+        $data=[
+           'name'=>$product->getName(),
+           'price'=>$product->getSalePrice(),
+            'slug'=>$product->getSlug(),
+            'image' => is_null($image) ? "" : $this->getParameter('domaininit') . $image->getSrc(),
+            'description'=>is_null($product->getShortDescription())?"":$product->getShortDescription()
+        ];
+
+        return new JsonResponse($data);
     }
 }

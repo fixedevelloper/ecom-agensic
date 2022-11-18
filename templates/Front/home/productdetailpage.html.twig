@@ -4,8 +4,8 @@
 {% endblock %}
 {% block stylesheets %}
     {{ parent() }}
-    <link href="{{ asset('assets/front/pages/css/style-shop.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/front/plugins/fancybox/source/jquery.fancybox.css') }}" rel="stylesheet">
+{#    <link href="{{ asset('assets/front/pages/css/style-shop.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/front/plugins/fancybox/source/jquery.fancybox.css') }}" rel="stylesheet">#}
     <style type="text/css">
         .vendor {
             margin-bottom: 15px;
@@ -30,7 +30,7 @@
         </div>
     </div>
     <!-- End Breadcrumbs -->
-    <section id="contact-us" class="contact-us section">
+    <div id="contact-us" class="contact-us section">
         <div class="">
             <div class="container">
                 <!-- BEGIN SIDEBAR & CONTENT -->
@@ -51,165 +51,207 @@
 
                     <!-- BEGIN CONTENT -->
                     <div class="col-md-9 col-sm-7">
-                        <div class="product-page">
-                            <div class="row">
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="product-main-image">
-                                        <img src="{{ asset('' ~ image ) }}"
-                                             alt="Cool green dress with red bell" class="img-responsive"
-                                             data-BigImgsrc="{{ asset('' ~ image) }}">
-                                    </div>
-                                    <div class="product-other-images">
-                                        {% for im in product.images %}
-                                            <a href="{{ asset('' ~ im.src) }}"
-                                               class="fancybox-button" rel="photos-lib">
-                                                <img alt="Berry Lace Dress" src="{{ asset('' ~ im.src) }}"></a>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <h3 class="mt-3 mb-3">{{ product.name }}</h3>
-                                    <div class="price-availability-block clearfix">
-                                        <div class="price">
-                                            <strong><span>$</span>{{ product.salePrice }}.00</strong>
-                                            <em>$<span>{{ product.regularPrice }}.00</span></em>
-                                        </div>
-                                        <div class="availability">
-                                            Availability: {% if product.inStock %}<strong>In Stock</strong>{% else %}
-                                                <strong>Out Stock</strong>{% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="description">
-                                        <p>{{ product.shortDescription }}</p>
-                                    </div>
-                                    <div class="vendor">
-                                        <h5>Seller: <a
-                                                    href="{{ path('shop_page', {'slug': product.shop.slug }) }}">{{ product.shop.name }}</a>
-                                        </h5>
-
-                                    </div>
-
-                                    <div class="product-page-cart">
-                                        <div class="product-quantity">
-                                            <input id="product-quantity" type="text" value="1" readonly
-                                                   class="form-control input-sm">
-                                        </div>
-                                        <button class="btn btn-primary add-to-cart" type="button">Add to cart</button>
-                                    </div>
-                                    <div class="review">
-                                        <input type="range" value="4" step="0.25" id="backing4">
-                                        <div class="rateit" data-rateit-backingfld="#backing4"
-                                             data-rateit-resetable="false"
-                                             data-rateit-ispreset="true" data-rateit-min="0" data-rateit-max="5">
-                                        </div>
-                                        <a href="javascript:;">7 reviews</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
-                                                href="javascript:;">Write
-                                            a review</a>
-                                    </div>
-                                    <ul class="social-icons">
-                                        <li><a class="facebook" data-original-title="facebook" href="javascript:;"></a>
-                                        </li>
-                                        <li><a class="twitter" data-original-title="twitter" href="javascript:;"></a>
-                                        </li>
-                                        <li><a class="googleplus" data-original-title="googleplus"
-                                               href="javascript:;"></a>
-                                        </li>
-                                        <li><a class="evernote" data-original-title="evernote" href="javascript:;"></a>
-                                        </li>
-                                        <li><a class="tumblr" data-original-title="tumblr" href="javascript:;"></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product-info">
-                                    <div class="nav-main">
-                                        <!-- Tab Nav -->
-                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                            <li class="nav-item"><a class="nav-link active" data-toggle="tab"
-                                                                    href="#description" role="tab">Description</a></li>
-                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#option"
-                                                                    role="tab">Options</a></li>
-                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#review"
-                                                                    role="tab">Reviews</a></li>
-                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#comment"
-                                                                    role="tab">Comments</a></li>
-                                        </ul>
-                                        <!--/ End Tab Nav -->
-                                    </div>
-                                    <div class="tab-content" id="myTabContent">
-                                        <!-- Start Single Tab -->
-                                        <div class="tab-pane fade show active" id="description" role="tabpanel">
-                                            <div class="tab-single">
-                                                <p>Description</p>
+                        <section class="product-details spad">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="product__details__pic">
+                                            <div class="product__details__pic__item">
+                                                <img class="product__details__pic__item--large"
+                                                     src="{{ asset('' ~ image)  | imagine_filter('product_cat')}}" alt="">
                                             </div>
-                                        </div>
-                                        <!-- Start Single Tab -->
-                                        <div class="tab-pane fade" id="option" role="tabpanel">
-                                            <div class="tab-single">
-                                                <p>Option</p>
+                                            <div class="product__details__pic__slider owl-carousel">
+                                                {% for im in product.images %}
+                                                <img data-imgbigurl="{{ asset('' ~ im.src) }}"
+                                                     src="{{ asset('' ~ im.src) }}" alt="">
+                                                {% endfor %}
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="product__details__text">
+                                            <h3>{{ product.name }}</h3>
+                                            <div class="product__details__rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-half-o"></i>
+                                                <span>(18 reviews)</span>
+                                            </div>
+                                            <div class="product__details__price">${{ product.salePrice }}</div>
+                                            <p>{{ product.shortDescription }}</p>
+                                            <div class="vendor">
+                                                <h5>Seller: <a
+                                                            href="{{ path('shop_page', {'slug': product.shop.slug }) }}">{{ product.shop.name }}</a>
+                                                </h5>
 
-                                <div class="sticker sticker-sale"></div>
+                                            </div>
+                                            <div class="product__details__quantity">
+                                                <div class="quantity">
+                                                    <div class="pro-qty">
+                                                        <input type="text" value="1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a href="#" class="btn btn-primary add-to-cart">ADD TO CARD</a>
+                                            <a href="#" class="heart-icon"><span class="fa fa-heart-o"></span></a>
+                                            <ul>
+                                                <li><b>Availability</b>  {% if product.inStock %}<strong>In Stock</strong>{% else %}
+                                                        <strong>Out Stock</strong>{% endif %}</li>
+                                                <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
+                                                <li><b>Weight</b> <span>0.5 kg</span></li>
+                                                <li><b>Share on</b>
+                                                    <div class="share">
+                                                        <a href="#"><i class="fa fa-facebook"></i></a>
+                                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                                        <a href="#"><i class="fa fa-instagram"></i></a>
+                                                        <a href="#"><i class="fa fa-pinterest"></i></a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="product__details__tab">
+                                            <ul class="nav nav-tabs" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                                       aria-selected="true">Description</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                                                       aria-selected="false">Information</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+                                                       aria-selected="false">Reviews <span>(1)</span></a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                                    <div class="product__details__tab__desc">
+                                                        <h6>Products Infomation</h6>
+                                                        <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
+                                                            Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Vivamus
+                                                            suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam
+                                                            vehicula elementum sed sit amet dui. Donec rutrum congue leo eget malesuada.
+                                                            Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat,
+                                                            accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a
+                                                            pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula
+                                                            elementum sed sit amet dui. Vestibulum ante ipsum primis in faucibus orci luctus
+                                                            et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam
+                                                            vel, ullamcorper sit amet ligula. Proin eget tortor risus.</p>
+                                                        <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
+                                                            ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
+                                                            elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
+                                                            porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
+                                                            nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.
+                                                            Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed
+                                                            porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum
+                                                            sed sit amet dui. Proin eget tortor risus.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                                    <div class="product__details__tab__desc">
+                                                        <h6>Products Infomation</h6>
+                                                        <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
+                                                            Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
+                                                            Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
+                                                            sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
+                                                            eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
+                                                            Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
+                                                            sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
+                                                            diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
+                                                            ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                                                            Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
+                                                            Proin eget tortor risus.</p>
+                                                        <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
+                                                            ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
+                                                            elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
+                                                            porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
+                                                            nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                                    <div class="product__details__tab__desc">
+                                                        <h6>Products Infomation</h6>
+                                                        <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
+                                                            Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
+                                                            Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
+                                                            sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
+                                                            eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
+                                                            Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
+                                                            sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
+                                                            diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
+                                                            ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                                                            Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
+                                                            Proin eget tortor risus.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </section>
                     </div>
                     <!-- END CONTENT -->
                 </div>
-                <!-- END SIDEBAR & CONTENT -->
 
-                <div class="product-area most-popular section">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="section-title">
-                                    <h2>Popular products</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="owl-carousel popular-slider">
-                                    {{ render(controller('App\\Controller\\Front\\DefaultController::popularproduct')) }}
-                                </div>
-                            </div>
-                        </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-area most-popular section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title">
+                        <h2>Popular products</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="owl-carousel popular-slider">
+                        {{ render(controller('App\\Controller\\Front\\DefaultController::popularproduct')) }}
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Modal -->
-    {{ render(controller('App\\Controller\\Front\\DefaultController::productmodal')) }}
-    <!-- Modal end -->
+    </div>
     <input type="hidden" id="input_data">
     <input type="hidden" id="input_data_id" value="{{ product.id }}">
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/front/plugins/fancybox/source/jquery.fancybox.pack.js') }}"
-            type="text/javascript"></script><!-- pop up -->
-    <script src='{{ asset('assets/front/plugins/zoom/jquery.zoom.min.js') }}'
-            type="text/javascript"></script><!-- product zoom -->
-    <script src="{{ asset('assets/front/plugins/bootstrap-touchspin/bootstrap.touchspin.min.js') }}"
-            type="text/javascript"></script><!-- Quantity -->
-    <script src="{{ asset('assets/front/corporate/scripts/layout.js') }}" type="text/javascript"></script>
-
-    <script type="text/javascript">
-        jQuery(document).ready(function () {
-            Layout.init();
-            Layout.initOWL();
-            Layout.initImageZoom();
-            Layout.initTouchspin();
-            Layout.initTwitter();
-
-            Layout.initFixHeaderWithPreHeader();
-            Layout.initNavScrolling();
-        });
-    </script>
     <script>
         $(function () {
+            /*---------------------------------
+    Product Details Pic Slider
+----------------------------------*/
+            $(".latest-product__slider").owlCarousel({
+                loop: true,
+                margin: 0,
+                items: 1,
+                dots: false,
+                nav: true,
+                navText: ["<span class='fa fa-angle-left'><span/>", "<span class='fa fa-angle-right'><span/>"],
+                smartSpeed: 1200,
+                autoHeight: false,
+                autoplay: true
+            });
+            $(".product__details__pic__slider").owlCarousel({
+                loop: true,
+                margin: 20,
+                items: 4,
+                dots: false,
+                smartSpeed: 1200,
+                autoHeight: false,
+                autoplay: true
+            });
             $('.product-action-2 a').click(function () {
                 console.log($(this).data('value'))
                 $('#input_data').val($(this).data('value'))
@@ -222,13 +264,14 @@
                 window.open(urlpourcentage, '_parent')
             })
             $('.add-to-cart').click(function () {
+                $(this).data('value')
                 $.ajax({
                     url: "{{ path('add_cart_json') }}",
                     type: "POST",
                     dataType: "JSON",
                     data: {
-                        product_id: $('#input_data_id').val(),
-                        quantity: $('#product-quantity').val(),
+                        product_id: $(this).data('id'),
+                        quantity: $(this).data('value'),
                     },
                     success: function (data) {
                         var url = Routing.generate('show_cart');

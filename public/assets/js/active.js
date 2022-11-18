@@ -120,7 +120,7 @@ Version:1.0
 		=========================*/ 
 		$('.popular-slider').owlCarousel({
 			items:1,
-			autoplay:true,
+			autoplay:false,
 			autoplayTimeout:5000,
 			smartSpeed: 400,
 			animateIn: 'fadeIn',
@@ -149,7 +149,7 @@ Version:1.0
 				},
 			}
 		});
-		
+		/// $('.popular-slider').trigger('remove.owl.carousel',2).trigger('refresh.owl.carousel');
 		/*===========================
 		  Quick View Slider JS
 		=============================*/ 
@@ -209,12 +209,14 @@ Version:1.0
 		/*====================================
 		  Cart Plus Minus Button
 		======================================*/
+
 		var CartPlusMinus = $('.cart-plus-minus');
 		CartPlusMinus.prepend('<div class="dec qtybutton">-</div>');
 		CartPlusMinus.append('<div class="inc qtybutton">+</div>');
 		$(".qtybutton").on("click", function() {
 			var $button = $(this);
 			var oldValue = $button.parent().find("input").val();
+			//console.log(oldValue)
 			if ($button.text() === "+") {
 				var newVal = parseFloat(oldValue) + 1;
 			} else {

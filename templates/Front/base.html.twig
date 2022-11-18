@@ -48,6 +48,8 @@
     {% block body %}
 
     {% endblock %}
+    {% include 'Front/_partials/_quick_view.html.twig' %}
+    {% include 'Front/_partials/javascript.html.twig' %}
     {% include 'Front/_partials/footer.html.twig' %}
 
 {% block javascripts %}
@@ -82,9 +84,62 @@
     <script src="{{ asset('assets/js/easing.js') }}"></script>
     <!-- Active JS -->
     <script src="{{ asset('assets/js/active.js') }}"></script>
+    <script src="{{ asset('js/quick_view_modal.js') }}"></script>
+
     <!-- END PAGE LEVEL JAVASCRIPTS -->
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ asset('js/fos_js_routes.js') }}"></script>
+    <script>
+        $('.add-to-cart').click(function () {
+            console.log( $(this).data('value'))
+
+            $.ajax({
+                url: "{{ path('add_cart_json') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    product_id: $("#quick_prod_id").val(),
+                    quantity: $("#quick_qty").val(),
+                },
+                success: function (data) {
+                    var url = Routing.generate('show_cart');
+                    //window.open(url)
+                    window.open(url, '_parent');
+                },
+                error: function (err) {
+                    setTimeout(function () {
+                        $("#overlay").fadeOut(300);
+                    }, 500);
+                }
+
+            });
+        })
+        $("._modal").click(function () {
+            var product = $(this).data("id");
+            $('#quick_prod_id').val(product)
+            $.ajax({
+                url: "{{ path('quick_view_ajax') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    product_id: product,
+                },
+                success: function (data) {
+                    $('#quick_name').text(data.name);
+                    $('#quick_price').text(data.price);
+                    $('#quick_description').text(data.description);
+                    $('#quick_img').attr('src',data.image);
+                    $('#exampleModal').modal('show');
+                },
+                error: function (err) {
+                    setTimeout(function () {
+                        $("#overlay").fadeOut(300);
+                    }, 500);
+                }
+
+            });
+        })
+    </script>
 {% endblock %}
 </body>
 </html>

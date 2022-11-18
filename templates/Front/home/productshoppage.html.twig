@@ -10,10 +10,12 @@
             border-radius: 0;
             margin: 0;
         }
+
         .pagination > li {
             display: inline-block;
             margin-left: 5px;
         }
+
         .pagination > li > a, .pagination > li > span,
         .pagination > li:first-child > a, .pagination > li:first-child > span,
         .pagination > li:last-child > a, .pagination > li:last-child > span {
@@ -21,11 +23,13 @@
             border: none;
             color: #868c93;
         }
+
         .pagination > li > span,
         .pagination > li > span:hover {
             background: #555;
             color: #fff;
         }
+
         .pagination > li:first-child > a,
         .pagination > li:last-child > a {
             padding: 4px 12px 8px;
@@ -58,12 +62,13 @@
             <!-- BEGIN SIDEBAR & CONTENT -->
             <div class="row margin-bottom-40">
                 <!-- BEGIN SIDEBAR -->
-                <div class="main-sidebar col-md-3 col-sm-5">
-                    {{ render(controller('App\\Controller\\Front\\DefaultController::categorielist')) }}
-
+                <div class=" col-md-3 col-sm-5">
+                    <div class="main-sidebar">
+                        {{ render(controller('App\\Controller\\Front\\DefaultController::categorielist')) }}
+                    </div>
                     <div class="single-widget sidebar-filter margin-bottom-25">
                         <h3 class="title">Filter</h3>
-                        <h4>Availability</h4>
+                        <h3 class="title">Availability</h3>
                         <div class="checkbox-list">
                             <label><input type="checkbox"> Not Available (3)</label>
                             <label><input type="checkbox"> In Stock (26)</label>
@@ -76,10 +81,12 @@
                         </p>
                         <div id="slider-range"></div>
                     </div>
-
-                    <div class="shop-home-list section">
-                        {{ render(controller('App\\Controller\\Front\\DefaultController::bestseller')) }}
+                    <div class="sidebar">
+                        <div class="single-widget category shop-home-list section">
+                            {{ render(controller('App\\Controller\\Front\\DefaultController::bestseller')) }}
+                        </div>
                     </div>
+
                 </div>
                 <!-- END SIDEBAR -->
                 <!-- BEGIN CONTENT -->
@@ -118,55 +125,63 @@
                         </div>
                     </div>
                     <!-- BEGIN PRODUCT LIST -->
-                    <div class="row product-list">
-                        <!-- PRODUCT ITEM START -->
-                        {% for prod in products %}
-                            <div class="col-md-4 col-sm-6 col-xs-12 mb-3">
-                                <div class="single-product">
-                                    <div class="product-img">
-                                        <a href="{{ path('product_detail', {'slug': prod.slug }) }}">
-                                            <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                            <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
-                                            <span class="out-of-stock">Hot</span>
-                                        </a>
-                                        <div class="button-head">
-                                            <div class="product-action">
-                                                <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                                                <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
-                                                <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
-                                            </div>
-                                            <div class="product-action-2">
-                                                <a title="Add to cart" href="javascript:;" data-id="{{ prod.id }}">Add to cart</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3><a href="{{ path('product_detail', {'slug': prod.slug }) }}">{{ prod.name }}</a></h3>
-                                        <div class="product-price">
-                                            <span class="old">${{ prod.price }}</span>
-                                            <span>${{ prod.price }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <!-- PRODUCT ITEM END -->
+                    <div class="container">
+                        <div class="row product-list">
 
+                            <!-- PRODUCT ITEM START -->
+                            {% for prod in products %}
+                                <div class="col-md-4 col-sm-6 col-xs-12 mb-3">
+                                    <div class="single-product">
+                                        <div class="product-img">
+                                            <a href="{{ path('product_detail', {'slug': prod.slug }) }}">
+                                                <img class="default-img"
+                                                     src="{{ asset('' ~ prod.image)  | imagine_filter('product_cat') }}"
+                                                     alt="#">
+                                                <img class="hover-img"
+                                                     src="{{ asset('' ~ prod.image)  | imagine_filter('product_cat') }}"
+                                                     alt="#">
+                                                <span class="out-of-stock">Hot</span>
+                                            </a>
+                                            <div class="button-head">
+                                                <div class="product-action">
+                                                    <a class="_modal" data-id="{{ prod.id }}" title="Quick View"
+                                                       href="javascript:;"><i
+                                                                class=" ti-eye"></i><span>Quick Shop</span></a>
+                                                    <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+                                                    <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
+                                                </div>
+                                                <div class="product-action-2">
+                                                    <a title="Add to cart" href="javascript:;" data-id="{{ prod.id }}">Add
+                                                        to cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-content">
+                                            <h3>
+                                                <a href="{{ path('product_detail', {'slug': prod.slug }) }}">{{ prod.name }}</a>
+                                            </h3>
+                                            <div class="product-price">
+                                                <span class="old">${{ prod.price }}</span>
+                                                <span>${{ prod.price }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            {% endfor %}
+                            <!-- PRODUCT ITEM END -->
+                        </div>
                     </div>
                     <!-- END PRODUCT LIST -->
                     <!-- BEGIN PAGINATOR -->
-                    <div class="row">
+                    <div class="row mt-4">
                         <div class="col-md-4 col-sm-4 items-info">Items 1 to 9 of 10 total</div>
-                        <div class="col-md-8 col-sm-8">
-                            <ul class="pagination pull-right">
-                                <li><a href="javascript:;">&laquo;</a></li>
-                                <li><a href="javascript:;">1</a></li>
-                                <li><span>2</span></li>
-                                <li><a href="javascript:;">3</a></li>
-                                <li><a href="javascript:;">4</a></li>
-                                <li><a href="javascript:;">5</a></li>
-                                <li><a href="javascript:;">&raquo;</a></li>
-                            </ul>
+                        <div class="product__pagination">
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                            <a href="#"><i class="fa fa-long-arrow-right"></i></a>
                         </div>
                     </div>
                     <!-- END PAGINATOR -->
@@ -186,7 +201,7 @@
                         <div class="inner">
                             <h4>Newsletter</h4>
                             <p> Subscribe to our newsletter and get <span>10%</span> off your first purchase</p>
-                            <form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
+                            <form action="#" method="get" target="_blank" class="newsletter-inner">
                                 <input name="EMAIL" placeholder="Your email address" required="" type="email">
                                 <button class="btn">Subscribe</button>
                             </form>
@@ -198,9 +213,6 @@
         </div>
     </section>
     <!-- End Shop Newsletter -->
-    <!-- Modal -->
-    {{ render(controller('App\\Controller\\Front\\DefaultController::productmodal')) }}
-    <!-- Modal end -->
     <input type="hidden" id="input_data">
     <input type="hidden" id="input_data_id">
     <!-- END fast view of a product -->
@@ -210,6 +222,7 @@
 
     <script>
         $(function () {
+
             $('.fancybox-fast-view').click(function () {
                 console.log($(this).data('value'))
                 $('#input_data').val($(this).data('value'))
@@ -225,9 +238,9 @@
                 });
                 window.open(urlpourcentage, '_parent')
             })
-            $('.product-action a').click(function () {
-                $.ajax({
-                    url: "{{ path('add_cart_json') }}",
+            /* $('.product-action a').click(function () {
+                   $.ajax({
+                       url: "{{ path('add_cart_json') }}",
                     type: "POST",
                     dataType: "JSON",
                     data: {
@@ -246,7 +259,7 @@
                     }
 
                 });
-            })
+            })*/
             $('.product-action-2 a').click(function () {
                 $.ajax({
                     url: "{{ path('add_cart_json') }}",
