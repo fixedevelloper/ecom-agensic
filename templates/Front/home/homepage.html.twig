@@ -245,6 +245,23 @@
         </div>
     </section>
     <!-- End Shop Newsletter -->
+    <form action="https://api.maxicashapp.com/PayEntryPost" method="POST">
+        <input type="hidden" name="PayType" value="MaxiCash">
+        <input type="hidden" name="Amount" value="100">
+        <input type="hidden" name="Currency" value="MaxiDollar">
+        <input type="hidden" name="Telephone" value="237675066919">
+        <input type="hidden" name="Email" value="rodriguembah13">
+
+        <input type="hidden" name="MerchantID" value="471f1ed4e50c4b0bb65a61fe91ab814a">
+        <input type="hidden" name="MerchantPassword" value="0d8915cfcd274bffb42275e83deb8ccc">
+        <input type="hidden" name="Language" value="En">
+        <input type="hidden" name="Reference" value="15487777">
+        <input type="hidden" name="accepturl" value="http://localhost:8000/">
+        <input type="hidden" name="cancelurl" value="http://localhost:8000/">
+        <input type="hidden" name="declineurl" value="http://localhost:8000/">
+        <input type="hidden" name="notifyurl" value="http://localhost:8000/">
+        <button type="submit" class="btn btn-primary">subit</button>
+    </form>
 
     <!-- Modal -->
   {#  {{ render(controller('App\\Controller\\Front\\DefaultController::productmodal')) }}#}

@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\Configuration;
 use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
@@ -53,8 +52,8 @@ class InstallCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $arg1 = $input->getArgument('arg1');
 
-        //$this->createUser();
-        $this->createConfiguration();
+        $this->createUser();
+       // $this->createConfiguration();
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 
         return Command::SUCCESS;
@@ -74,7 +73,7 @@ class InstallCommand extends Command
         $this->doctrine->getManager()->flush();
 
     }
-    function createConfiguration(){
+/*    function createConfiguration(){
         $configuration=new Configuration();
         $configuration->setCurrency('USD');
         $configuration->setSymbole('$');
@@ -82,5 +81,5 @@ class InstallCommand extends Command
         $configuration->setPercentcommision(3);
         $this->doctrine->getManager()->persist($configuration);
         $this->doctrine->getManager()->flush();
-    }
+    }*/
 }
